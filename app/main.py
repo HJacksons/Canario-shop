@@ -42,8 +42,8 @@ def fetch_feature_flags():
 
         logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
         return {
-            "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
-            "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
+            "SHOW_FLASHSALE": True if show_flashsale == "1" else False,
+            "SHOW_PREMIUM": True if show_premium == "1" else False,
         }
     else:
         logging.info("Using environment variables for feature flags.")
