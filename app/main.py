@@ -2,24 +2,71 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os
+import random
+import requests
+from pymemcache.client import base
+import logging
+
+VERSION = "0.3"
+
+# IMPLEMENT USE OF MEMCACHE
+
+USE_MEMCACHE = os.environ.get("USE_MEMCACHE", default="N")
+MEMCACHE_SERVER = os.environ.get("MEMCACHE_SERVER")
+MEMCACHE_TIMEOUT = os.environ.get("MEMCACHE_TIMEOUT", default=60)
 
 app = FastAPI()
 
 # Mounting static files
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 
-#SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default=False)
-#SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default=False)
-SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default="0") == "1"
-SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default="0") == "1"
+# SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default=False)
+# SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default=False)
+# SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default="0") == "1"
+# SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default="0") == "1"
+
+# Create memcache client if USE_MEMCACHE is set to Y
+memcache_client = None
+if USE_MEMCACHE == "Y":
+    memcache_client = base.Client((MEMCACHE_SERVER, 11211))
+
+    # Fetch feature flags from memcache or env vars
+
+
+def fetch_feature_flags():
+    if memcache_client:
+        show_flashsale = memcache_client.get("SHOW_FLASHSALE")
+        show_premium = memcache_client.get("SHOW_PREMIUM")
+
+        # Check if the flags are not in Memcache
+        if show_flashsale is None:
+            show_flashsale = str(random.randint(0, 1))
+            memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=MEMCACHE_TIMEOUT)
+
+        if show_premium is None:
+            show_premium = str(random.randint(0, 1))
+            memcache_client.set("SHOW_PREMIUM", show_premium, expire=MEMCACHE_TIMEOUT)
+
+        logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
+        return {
+            "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
+            "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
+        }
+    else:
+        logging.info("Using environment variables for feature flags.")
+        return {
+            "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
+            "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
+        }
+
 
 
 @app.get("/", response_class=HTMLResponse)
 def shop_homepage():
-    # Fetch feature flags from the dashboard
-    # fetched_flags = fetch_feature_flags()
-    # SHOW_FLASHSALE = fetched_flags.get("SHOW_FLASHSALE", False)
-    # SHOW_PREMIUM = fetched_flags.get("SHOW_PREMIUM", False)
+    # Fetch feature flags from  memcache or env vars
+    feature_flags = fetch_feature_flags()
+    SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
+    SHOW_PREMIUM = feature_flags["SHOW_PREMIUM"]
 
     header = "<header>Canario Shop</header>"
     title = "<h1>Welcome to Canario Shop</h1><p>Your one-stop shop for all things Canario.</p>"
