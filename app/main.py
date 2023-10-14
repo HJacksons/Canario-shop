@@ -21,9 +21,10 @@ app.mount("/static", StaticFiles(directory="./static"), name="static")
 # Create memcache client if USE_MEMCACHE is set to Y
 memcache_client = None
 if USE_MEMCACHE == "Y":
-    memcache_client = base.Client((MEMCACHE_SERVER, 11211))
-
-    # Fetch feature flags from memcache or env vars
+    try:
+        memcache_client = base.Client((MEMCACHE_SERVER, 11211))
+    except Exception as e:
+        logging.error(f"Error initializing Memcache client: {e}")
 
 
 def fetch_feature_flags():
@@ -34,16 +35,16 @@ def fetch_feature_flags():
         # Check if the flags are not in Memcache
         if show_flashsale is None:
             show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
-            memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=MEMCACHE_TIMEOUT)
+            memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=int(MEMCACHE_TIMEOUT))
 
         if show_premium is None:
             show_premium = os.environ.get("SHOW_PREMIUM", default="0")
-            memcache_client.set("SHOW_PREMIUM", show_premium, expire=MEMCACHE_TIMEOUT)
+            memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
 
         logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
         return {
-            "SHOW_FLASHSALE": True if show_flashsale == "1" else False,
-            "SHOW_PREMIUM": True if show_premium == "1" else False,
+            "SHOW_FLASHSALE": show_flashsale == "1",
+            "SHOW_PREMIUM": show_premium == "1",
         }
     else:
         logging.info("Using environment variables for feature flags.")
