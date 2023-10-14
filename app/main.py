@@ -9,8 +9,6 @@ import logging
 
 VERSION = "0.3"
 
-# IMPLEMENT USE OF MEMCACHE
-
 USE_MEMCACHE = os.environ.get("USE_MEMCACHE", default="N")
 MEMCACHE_SERVER = os.environ.get("MEMCACHE_SERVER")
 MEMCACHE_TIMEOUT = os.environ.get("MEMCACHE_TIMEOUT", default=60)
@@ -19,11 +17,6 @@ app = FastAPI()
 
 # Mounting static files
 app.mount("/static", StaticFiles(directory="./static"), name="static")
-
-# SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default=False)
-# SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default=False)
-# SHOW_FLASHSALE = os.environ.get("SHOW_FLASHSALE", default="0") == "1"
-# SHOW_PREMIUM = os.environ.get("SHOW_PREMIUM", default="0") == "1"
 
 # Create memcache client if USE_MEMCACHE is set to Y
 memcache_client = None
@@ -40,11 +33,11 @@ def fetch_feature_flags():
 
         # Check if the flags are not in Memcache
         if show_flashsale is None:
-            show_flashsale = str(random.randint(0, 1))
+            show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
             memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=MEMCACHE_TIMEOUT)
 
         if show_premium is None:
-            show_premium = str(random.randint(0, 1))
+            show_premium = os.environ.get("SHOW_PREMIUM", default="0")
             memcache_client.set("SHOW_PREMIUM", show_premium, expire=MEMCACHE_TIMEOUT)
 
         logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
@@ -58,7 +51,6 @@ def fetch_feature_flags():
             "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
             "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
         }
-
 
 
 @app.get("/", response_class=HTMLResponse)
