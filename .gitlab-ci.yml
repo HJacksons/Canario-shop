@@ -48,7 +48,7 @@ deploy_production:
 deploy_production-flags:
   stage: deploy_production
   script:
-      # Run Caddy reverse proxy for Container 1 with certain feature flags set
+      # Run Caddy reverse proxy for Container 1 with certain feature flags sett
     - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -v $(pwd)/static:/srv/static -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 abiosoft/caddy
 
     # Run Caddy reverse proxy for Container 2 with different feature flags set
