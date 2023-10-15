@@ -1,4 +1,4 @@
 :2015 {
-    root /srv/static
+    reverse_proxy 10.196.38.192:8000
     gzip
 }
