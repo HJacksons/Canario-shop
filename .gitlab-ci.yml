@@ -49,10 +49,10 @@ deploy_production-flags:
   stage: deploy_production
   script:
       # Run Caddy reverse proxy for Container 1 with certain feature flags sett
-    - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -v $(pwd)/static:/srv -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 abiosoft/caddy
+    - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -v $(pwd)/static:/srv -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 abiosoft/caddy
 
     # Run Caddy reverse proxy for Container 2 with different feature flags set
-    - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -v $(pwd)/static:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
+    - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -v $(pwd)/static:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 abiosoft/caddy
 
 
 
