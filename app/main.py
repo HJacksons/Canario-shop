@@ -60,6 +60,7 @@ def fetch_feature_flags():
 
 @app.get("/", response_class=HTMLResponse)
 def shop_homepage():
+    server_info = "Served by FastAPI on port 8003"
     # Fetch feature flags from  memcache or env vars
     feature_flags = fetch_feature_flags()
     SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
@@ -210,9 +211,4 @@ def shop_homepage():
     </html>
     
     """
-    #return HTMLResponse(content=full_page, status_code=200)
-    response = HTMLResponse(content=full_page, status_code=200)
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
+    return HTMLResponse(content=full_page, status_code=200, headers={"Server": server_info})
