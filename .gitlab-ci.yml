@@ -62,4 +62,4 @@ deploy_production-flags:
 #       - docker stop canario-shop-production-$CI_PIPELINE_ID
 #       - docker rm canario-shop-production-$CI_PIPELINE_ID
 
->>>>>>> f146c49700bc104656ce78aa68af88411c4ea89c
+
