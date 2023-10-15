@@ -60,7 +60,7 @@ def fetch_feature_flags():
 
 @app.get("/", response_class=HTMLResponse)
 def shop_homepage():
-    server_info = f"Served by FastAPI on port {os.environ.get('PORT', 'unknown')}"
+    server_info = f"Served by FastAPI on port {os.environ.get('INFO_PORT', 'unknown')}"
     # Fetch feature flags from  memcache or env vars
     feature_flags = fetch_feature_flags()
     SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
