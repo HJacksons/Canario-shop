@@ -210,4 +210,7 @@ def shop_homepage():
     </html>
     
     """
-    return HTMLResponse(content=full_page, status_code=200)
+    #return HTMLResponse(content=full_page, status_code=200)
+    response = HTMLResponse(content=full_page, status_code=200)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
