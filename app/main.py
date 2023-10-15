@@ -212,5 +212,7 @@ def shop_homepage():
     """
     #return HTMLResponse(content=full_page, status_code=200)
     response = HTMLResponse(content=full_page, status_code=200)
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
     return response
