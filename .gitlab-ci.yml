@@ -37,10 +37,10 @@ deploy_production:
     - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     # Assign listening port number if dont want automatic, can deploy to another one port too
 
-deploy_productionFF:
-  stage: deploy_production
-  script:
-    - docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
+#deploy_productionFF:
+  #stage: deploy_production
+  #script:
+    #- docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
 
 
 clean_containers:
