@@ -184,7 +184,7 @@ def shop_homepage():
     </div>
     """ if SHOW_PREMIUM else ""
 
-    footer = "<footer>Canario Shop 2023</footer>"
+    footer = "<footer>Canario Shop 2023, Oslo, Norway</footer>"
 
     full_page = f"""
 
