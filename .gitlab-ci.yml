@@ -1,0 +1,61 @@
+stages:
+  - build
+  - test
+  - deploy_staging
+  - test_staging
+  - deploy_production
+  - notify
+
+image_build:
+  stage: build
+  script:
+    - echo "Building Docker image for Canario-Shop"
+    - docker build -t canario-shop:$CI_PIPELINE_ID .
+
+code_test:
+  stage: test
+  script:
+    - cd app
+    - cat main.py
+
+deploy_staging:
+  stage: deploy_staging
+  script:
+    - docker run -d -p 8000 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
+
+test_staging:
+  stage: test_staging
+  script:
+    - sleep 10 
+    - curl http://10.196.38.192:8000  
+
+deploy_production:
+  stage: deploy_production
+  script:
+    - docker stop canario-shop-staging-$CI_PIPELINE_ID
+    - docker rm canario-shop-staging-$CI_PIPELINE_ID
+    - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
+
+
+# NOTIFICATIONS STAGE
+notify_on_discord:
+  stage: notify
+  script:
+    - echo ":) Time to notify..."
+  after_script:
+    - |
+      MESSAGE="Pipeline finished for project: $CI_PROJECT_NAME"
+    
+      if [ "$CI_JOB_STATUS" == "success" ]; then
+        MESSAGE="🎉 Success! Pipeline for canario-shop completed successfully."
+      elif [ "$CI_JOB_STATUS" == "failed" ]; then
+        MESSAGE="⛔ Failure! Pipeline for canario-shop encountered an error."
+      fi
+
+      echo "📢 Sending Notification: $MESSAGE"
+      curl -X POST -H "Content-Type: application/json" \
+      -d "{\"content\":\"$MESSAGE\"}" \
+      $DISCORD_WEBHOOK_URL
+
+  
+ 
