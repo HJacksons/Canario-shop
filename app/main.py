@@ -60,7 +60,7 @@ def fetch_feature_flags():
 
 @app.get("/", response_class=HTMLResponse)
 def shop_homepage():
-    server_info = "Served by FastAPI on port 8003"
+    server_info = f"Served by FastAPI on port {os.environ.get('PORT', 'unknown')}"
     # Fetch feature flags from  memcache or env vars
     feature_flags = fetch_feature_flags()
     SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
@@ -185,7 +185,7 @@ def shop_homepage():
     </div>
     """ if SHOW_PREMIUM else ""
 
-    footer = "<footer>Canario Shop 2023, Oslo, Norway</footer>"
+    footer = f"<footer>Canario Shop 2023, Oslo, Norway | {server_info}</footer>"
 
     full_page = f"""
 
@@ -211,4 +211,4 @@ def shop_homepage():
     </html>
     
     """
-    return HTMLResponse(content=full_page, status_code=200, headers={"Server": server_info})
+    return HTMLResponse(content=full_page, status_code=200)
