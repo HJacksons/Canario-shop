@@ -52,7 +52,6 @@ deploy_production-flags:
     - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
 
 
-
 clean_containers:
     stage: clean-production
     script:
