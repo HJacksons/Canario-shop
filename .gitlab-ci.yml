@@ -35,12 +35,22 @@ deploy_production:
     - docker stop canario-shop-staging-$CI_PIPELINE_ID
     - docker rm canario-shop-staging-$CI_PIPELINE_ID
     - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
-    # Assign listening port number if dont want automatic, can deploy to another one port too
+    # this can be deplo shop1, can add deploy shop2 with different port.. representing webservers.. down use flags and server them differently
 
 #deploy_productionFF:
   #stage: deploy_production
   #script:
     #- docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
+
+deploy_production-flags:
+  stage: deploy_production
+  script:
+    # Container 1 with certain feature flags set
+    - docker run -d -p 1001:80 --name canario-shop-production-1-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 abiosoft/caddy
+
+    # Container 2 with different feature flags set
+    - docker run -d -p 1002:80 --name canario-shop-production-2-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
+
 
 
 clean_containers:
