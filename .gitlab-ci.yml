@@ -55,8 +55,9 @@ run-caddy:
     - echo "  reverse_proxy 10.196.38.192:8003 10.196.38.192:8004" >> Caddyfile
     - echo "  gzip" >> Caddyfile
     - echo "}" >> Caddyfile
-    - docker pull abiosoft/caddy
-    - docker run -d -p 80:80 --name caddy-$CI_PIPELINE_ID -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile abiosoft/caddy
+    - docker pull caddy/caddy:latest
+    - docker run -d -p 80:80 --name caddy-$CI_PIPELINE_ID -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile caddy/caddy:latest
+
 
 
 # clean_containers:
