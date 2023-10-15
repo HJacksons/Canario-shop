@@ -4,6 +4,7 @@ stages:
   - deploy_staging
   - test_staging
   - deploy_production
+  - clean # I dont want to deploy now
   
 image_build:
   stage: build
@@ -20,7 +21,7 @@ code_test:
 deploy_staging:
   stage: deploy_staging
   script:
-    - docker run -d -p 8000:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
+    - docker run -d -p 8000:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID # remove port if want
 
 test_staging:
   stage: test_staging
@@ -33,4 +34,11 @@ deploy_production:
   script:
     - docker stop canario-shop-staging-$CI_PIPELINE_ID
     - docker rm canario-shop-staging-$CI_PIPELINE_ID
-    - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
+    - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
+
+clean_containers:
+    stage: clean
+    script:
+      - docker stop canario-shop-production-$CI_PIPELINE_ID
+      - docker rm canario-shop-production-$CI_PIPELINE_ID
+
