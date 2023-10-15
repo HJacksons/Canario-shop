@@ -4,8 +4,7 @@ stages:
   - deploy_staging
   - test_staging
   - deploy_production
-  - notify
-
+  
 image_build:
   stage: build
   script:
@@ -35,27 +34,3 @@ deploy_production:
     - docker stop canario-shop-staging-$CI_PIPELINE_ID
     - docker rm canario-shop-staging-$CI_PIPELINE_ID
     - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
-
-
-# NOTIFICATIONS STAGE
-notify_on_discord:
-  stage: notify
-  script:
-    - echo ":) Time to notify..."
-  after_script:
-    - |
-      MESSAGE="Pipeline finished for project: $CI_PROJECT_NAME"
-    
-      if [ "$CI_JOB_STATUS" == "success" ]; then
-        MESSAGE="🎉 Success! Pipeline for canario-shop completed successfully."
-      elif [ "$CI_JOB_STATUS" == "failed" ]; then
-        MESSAGE="⛔ Failure! Pipeline for canario-shop encountered an error."
-      fi
-
-      echo "📢 Sending Notification: $MESSAGE"
-      curl -X POST -H "Content-Type: application/json" \
-      -d "{\"content\":\"$MESSAGE\"}" \
-      $DISCORD_WEBHOOK_URL
-
-  
- 
