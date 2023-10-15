@@ -51,7 +51,7 @@ run-caddy:
   stage: deploy_production
   script:
       # Pull and run Caddy with our configuration
-    - echo "http://:80 { reverse_proxy 127.0.0.1:8001 127.0.0.1:8002 gzip }" > Caddyfile
+    - echo "http://:80 {reverse_proxy 10.196.38.192:8003 10.196.38.192:8004 gzip }" > Caddyfile
     - docker pull abiosoft/caddy
     - docker run -d -p 80:80 --name caddy-$CI_PIPELINE_ID -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile abiosoft/caddy
 
