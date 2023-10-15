@@ -7,6 +7,10 @@ import requests
 from pymemcache.client import base
 import logging
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 VERSION = "0.3"
 
 USE_MEMCACHE = os.environ.get("USE_MEMCACHE", default="N")
@@ -21,17 +25,18 @@ app.mount("/static", StaticFiles(directory="./static"), name="static")
 # Create memcache client if USE_MEMCACHE is set to Y
 memcache_client = None
 if USE_MEMCACHE == "Y":
-    try:
-        memcache_client = base.Client((MEMCACHE_SERVER, 11211))
-    except Exception as e:
-        logging.error(f"Error initializing Memcache client: {e}")
+    memcache_client = base.Client((MEMCACHE_SERVER, 11211))
+
+    # Fetch feature flags from memcache or env vars
 
 
 def fetch_feature_flags():
     if memcache_client:
         show_flashsale = memcache_client.get("SHOW_FLASHSALE")
         show_premium = memcache_client.get("SHOW_PREMIUM")
-
+        # Log type and value
+        logging.info(f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}")
+        logging.info(f"Type of show_premium: {type(show_premium)}, Value: {show_premium}")
         # Check if the flags are not in Memcache
         if show_flashsale is None:
             show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
@@ -40,11 +45,10 @@ def fetch_feature_flags():
         if show_premium is None:
             show_premium = os.environ.get("SHOW_PREMIUM", default="0")
             memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
-
         logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
         return {
-            "SHOW_FLASHSALE": show_flashsale == "1",
-            "SHOW_PREMIUM": show_premium == "1",
+            "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
+            "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
         }
     else:
         logging.info("Using environment variables for feature flags.")
