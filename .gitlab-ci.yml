@@ -46,10 +46,10 @@ deploy_production-flags:
   stage: deploy_production
   script:
     # Container 1 with certain feature flags set
-    - docker run -d -p 1001:80 --name canario-shop-production-1-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 abiosoft/caddy
+    - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 abiosoft/caddy
 
     # Container 2 with different feature flags set
-    - docker run -d -p 1002:80 --name canario-shop-production-2-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
+    - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -v /root/canario-shop:/srv -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
 
 
 
