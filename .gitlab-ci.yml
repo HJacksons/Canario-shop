@@ -21,7 +21,7 @@ code_test:
 deploy_staging:
   stage: deploy_staging
   script:
-    - docker run -d -p 8000 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
+    - docker run -d -p 8000:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID
 
 test_staging:
   stage: test_staging
