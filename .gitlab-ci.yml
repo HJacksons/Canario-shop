@@ -4,7 +4,7 @@ stages:
   - deploy_staging
   - test_staging
   - deploy_production
-  - clean # I dont want to deploy now
+  - clean-production # I dont want to keep deployment now
   
 image_build:
   stage: build
@@ -37,7 +37,7 @@ deploy_production:
     - docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
 
 clean_containers:
-    stage: clean
+    stage: clean-production
     script:
       - docker stop canario-shop-production-$CI_PIPELINE_ID
       - docker rm canario-shop-production-$CI_PIPELINE_ID
