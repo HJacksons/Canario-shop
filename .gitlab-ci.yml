@@ -48,13 +48,11 @@ deploy_production:
 deploy_production-flags:
   stage: deploy_production
   script:
-    # Set VM's floating IP address
-    - VM_IP=$(hostname -I | awk '{print $1}')
-    # Run Caddy reverse proxy for Container 1 with certain feature flags set
-    - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 abiosoft/caddy /usr/bin/caddy -proxy / http://$VM_IP:8000
+      # Run Caddy reverse proxy for Container 1 with certain feature flags set
+    - docker run -d -p 1001:2015 --name canario-shop-production-1-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 abiosoft/caddy
 
     # Run Caddy reverse proxy for Container 2 with different feature flags set
-    - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy /usr/bin/caddy -proxy / http://$VM_IP:8000
+    - docker run -d -p 1002:2015 --name canario-shop-production-2-$CI_PIPELINE_ID -v $(pwd)/app/Caddyfile:/etc/caddy/Caddyfile -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 abiosoft/caddy
 
 
 
