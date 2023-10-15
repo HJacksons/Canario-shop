@@ -60,7 +60,7 @@ run-caddy:
 
 
 
-# clean_containers:
+# clean_containers
 #     stage: clean-production
 #     script:
 #       - docker stop canario-shop-production-$CI_PIPELINE_ID
