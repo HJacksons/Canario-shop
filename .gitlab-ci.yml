@@ -31,11 +31,11 @@ test_staging:
     - sleep 10 
     - curl http://10.196.38.192:8000  
 
-# deploy_production:
-#   stage: deploy_production
-#   script:
-#     - docker stop canario-shop-staging-$CI_PIPELINE_ID
-#     - docker rm canario-shop-staging-$CI_PIPELINE_ID
+deploy_production1:
+   stage: deploy_production
+   script:
+     - docker stop canario-shop-staging-$CI_PIPELINE_ID
+     - docker rm canario-shop-staging-$CI_PIPELINE_ID
     #- docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     # this can be deplo shop1, can add deploy shop2 with different port.. representing webservers.. down use flags and server them differently
     #- docker run --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
@@ -71,14 +71,16 @@ deploy_production:
 run-caddy:
   stage: deploy_production
   script:
+    # Check if a caddy container with a name starting with "caddy-" exists and remove it
+    - if docker ps -a | grep -q "caddy-"; then 
+        docker rm -f $(docker ps -a -q -f "name=caddy-");
+      fi
+
+    # The rest of your caddy setup script
     - echo "http://:80 {" > Caddyfile
     - echo "  reverse_proxy 10.196.38.192:8003 10.196.38.192:8004" >> Caddyfile
     - echo "}" >> Caddyfile
     - docker pull caddy/caddy:latest
-    - if docker ps -a | grep -q "caddy"; then 
-      docker rm -f caddy;
-      fi
-
     - docker run -d -p 80:80 --name caddy-$CI_PIPELINE_ID -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile caddy/caddy:latest
 
 
