@@ -40,8 +40,15 @@ deploy_production:
     # this can be deplo shop1, can add deploy shop2 with different port.. representing webservers.. down use flags and server them differently
     #- docker run --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
     #- docker run --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
-    - docker  service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
-    - docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
+    # - docker  service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
+    # - docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
+    - docker service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
+    - docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
+
+
+
+
+
 
 #deploy_productionFF:
   #stage: deploy_production
