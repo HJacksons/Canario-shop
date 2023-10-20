@@ -29,7 +29,15 @@ if USE_MEMCACHE == "Y":
 
     # Fetch feature flags from memcache or env vars
 
+@app.post("/invalidate_cache")
+def invalidate_cache():
+    if memcache_client:
+        memcache_client.delete("SHOW_FLASHSALE")
+        memcache_client.delete("SHOW_PREMIUM")
+        return {"status": "cache invalidated"}
+    return {"status": "memcache not used"}
 
+    
 def fetch_feature_flags():
     try:
         if memcache_client:
