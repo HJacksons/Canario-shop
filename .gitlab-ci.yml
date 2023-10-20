@@ -47,7 +47,7 @@ deploy_production:
     - EXISTING_SERVICE_NAME=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME" ]]; then 
         echo "Updating existing service $EXISTING_SERVICE_NAME";
-        docker service update --force --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE --label-add updated_at=$(date -u +"%Y%m%d%H%M%S") $EXISTING_SERVICE_NAME;
+        docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE --label-add updated_at=$(date -u +"%Y%m%d%H%M%S") $EXISTING_SERVICE_NAME;
         echo "Flags:SHOW_FLASHSALE=$SHOW_FLASHSALE, SHOW_PREMIUM=$SHOW_PREMIUM, USE_MEMCACHE=$USE_MEMCACHE"
 
       else 
