@@ -31,31 +31,36 @@ if USE_MEMCACHE == "Y":
 
 
 def fetch_feature_flags():
-    if memcache_client:
-        show_flashsale = memcache_client.get("SHOW_FLASHSALE")
-        show_premium = memcache_client.get("SHOW_PREMIUM")
-        # Log type and value
-        logging.info(f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}")
-        logging.info(f"Type of show_premium: {type(show_premium)}, Value: {show_premium}")
-        # Check if the flags are not in Memcache
-        if show_flashsale is None:
-            show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
-            memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=int(MEMCACHE_TIMEOUT))
+    try:
+        if memcache_client:
+            show_flashsale = memcache_client.get("SHOW_FLASHSALE")
+            show_premium = memcache_client.get("SHOW_PREMIUM")
 
-        if show_premium is None:
-            show_premium = os.environ.get("SHOW_PREMIUM", default="0")
-            memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
-        logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
-        return {
-            "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
-            "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
-        }
-    else:
-        logging.info("Using environment variables for feature flags.")
-        return {
-            "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
-            "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
-        }
+            logging.info(f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}")
+            logging.info(f"Type of show_premium: {type(show_premium)}, Value: {show_premium}")
+
+            if show_flashsale is None:
+                show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
+                memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=int(MEMCACHE_TIMEOUT))
+
+            if show_premium is None:
+                show_premium = os.environ.get("SHOW_PREMIUM", default="0")
+                memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
+
+            logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
+            return {
+                "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
+                "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
+            }
+    except Exception as e:
+        logging.error(f"Error accessing Memcache: {e}")
+
+    logging.info("Using environment variables for feature flags.")
+    return {
+        "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
+        "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
+    }
+
 
 
 @app.get("/", response_class=HTMLResponse)
