@@ -72,10 +72,10 @@ run-caddy:
   stage: deploy_production
   script:
     # Check if a caddy container with a name starting with "caddy-" exists and remove it
+    - docker stop $(docker ps -q --filter "publish=80")
     - if docker ps -a | grep -q "caddy-"; then 
         docker rm -f $(docker ps -a -q -f "name=caddy-");
       fi
-    - sleep 5
     # The rest of your caddy setup script
     - echo "http://:80 {" > Caddyfile
     - echo "  reverse_proxy 10.196.38.192:8003 10.196.38.192:8004" >> Caddyfile
