@@ -46,16 +46,21 @@ test_staging:
 deploy_production:
   stage: deploy_production
   script:
-    - if docker service ls | grep -q "canario-shop-production1-$CI_PIPELINE_ID"; then
+    - SERVICE_EXISTS=$(docker service ls | grep "canario-shop-production1-$CI_PIPELINE_ID" || echo "")
+    - if [[ ! -z "$SERVICE_EXISTS" ]]; then
+        echo "Updating existing service canario-shop-production1-$CI_PIPELINE_ID";
         docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE canario-shop-production1-$CI_PIPELINE_ID;
       else
+        echo "Creating new service canario-shop-production1-$CI_PIPELINE_ID";
         docker service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID;
       fi
-
-    - if docker service ls | grep -q "canario-shop-production2-$CI_PIPELINE_ID"; then
-        docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE canario-shop-production2-$CI_PIPELINE_ID;
+      - SERVICE_EXISTS=$(docker service ls | grep "canario-shop-production1-$CI_PIPELINE_ID" || echo "")
+      - if [[ ! -z "$SERVICE_EXISTS" ]]; then
+        echo "Updating existing service canario-shop-production1-$CI_PIPELINE_ID";
+        docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE canario-shop-production1-$CI_PIPELINE_ID;
       else
-        docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID;
+        echo "Creating new service canario-shop-production1-$CI_PIPELINE_ID";
+        docker service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID;
       fi
     
 
