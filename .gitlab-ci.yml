@@ -4,6 +4,7 @@ stages:
   - deploy_staging
   - test_staging
   - deploy_production
+  - post_deploy
   #- clean-production # I dont want to keep deployment now
   
 image_build:
@@ -86,6 +87,13 @@ run-caddy:
     - echo "}" >> Caddyfile
     - docker pull caddy/caddy:latest
     - docker run -d -p 80:80 --name caddy-$CI_PIPELINE_ID -v $(pwd)/Caddyfile:/etc/caddy/Caddyfile caddy/caddy:latest
+  
+invalidate_feature_flags_cache:
+  stage: post_deploy
+  script:
+    - curl -X POST http://10.196.38.192/invalidate_cache
+  when: always # This ensures that the cache invalidation happens irrespective of the success/failure of the previous stages.
+  allow_failure: true # This ensures that the pipeline doesn't fail if the cache invalidation step fails.
 
 
 # clean_containers
