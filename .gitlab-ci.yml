@@ -31,38 +31,17 @@ test_staging:
     - sleep 10 
     - curl http://10.196.38.192:8000  
 
-# deploy_production:
-#   stage: deploy_production
-#   script:
-#     - docker stop canario-shop-staging-$CI_PIPELINE_ID
-#     - docker rm canario-shop-staging-$CI_PIPELINE_ID
+deploy_production:
+  stage: deploy_production
+  script:
+    - docker stop canario-shop-staging-$CI_PIPELINE_ID
+    - docker rm canario-shop-staging-$CI_PIPELINE_ID
     #- docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     # this can be deplo shop1, can add deploy shop2 with different port.. representing webservers.. down use flags and server them differently
     #- docker run --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
     #- docker run --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
-    # - docker  service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
-    # - docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
-
-deploy_production:
-  stage: deploy_production
-  script:
-    - SERVICE_EXISTS=$(docker service ls | grep "canario-shop-production1-$CI_PIPELINE_ID" || echo "")
-    - if [[ ! -z "$SERVICE_EXISTS" ]]; then
-        echo "Updating existing service canario-shop-production1-$CI_PIPELINE_ID";
-        docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE canario-shop-production1-$CI_PIPELINE_ID;
-      else
-        echo "Creating new service canario-shop-production1-$CI_PIPELINE_ID";
-        docker service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID;
-      fi
-      - SERVICE_EXISTS=$(docker service ls | grep "canario-shop-production2-$CI_PIPELINE_ID" || echo "")
-      - if [[ ! -z "$SERVICE_EXISTS" ]]; then
-        echo "Updating existing service canario-shop-production2-$CI_PIPELINE_ID";
-        docker service update --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add USE_MEMCACHE=$USE_MEMCACHE canario-shop-production1-$CI_PIPELINE_ID;
-      else
-        echo "Creating new service canario-shop-production1-$CI_PIPELINE_ID";
-        docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID;
-      fi
-    
+    - docker  service create --replicas=2 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE  -e SHOW_PREMIUM=$SHOW_PREMIUM -e   USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
+    - docker service create --replicas=2 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e   USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
 
 #deploy_productionFF:
   #stage: deploy_production
@@ -85,5 +64,3 @@ run-caddy:
 #     script:
 #       - docker stop canario-shop-production-$CI_PIPELINE_ID
 #       - docker rm canario-shop-production-$CI_PIPELINE_ID
-
-
