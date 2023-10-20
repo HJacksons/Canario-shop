@@ -75,7 +75,7 @@ run-caddy:
     - if docker ps -a | grep -q "caddy-"; then 
         docker rm -f $(docker ps -a -q -f "name=caddy-");
       fi
-
+    - sleep 5
     # The rest of your caddy setup script
     - echo "http://:80 {" > Caddyfile
     - echo "  reverse_proxy 10.196.38.192:8003 10.196.38.192:8004" >> Caddyfile
