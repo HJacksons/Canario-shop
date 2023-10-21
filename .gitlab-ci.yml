@@ -119,10 +119,3 @@ update_hourly_feature_flags:
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "main" 
-
-
-# clean_containers
-#     stage: clean-production
-#     script:
-#       - docker stop canario-shop-production-$CI_PIPELINE_ID
-#       - docker rm canario-shop-production-$CI_PIPELINE_ID
