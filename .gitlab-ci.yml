@@ -104,12 +104,20 @@ update_hourly_feature_flags:
     - CURRENT_HOUR=$(date +%H)
     - SHOW_PROMOTION=0
     - if [ $(($CURRENT_HOUR % 2)) -eq 0 ]; then SHOW_PROMOTION=1; fi
-    - docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production1
-    - docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production2
-  when: always # Ensure this runs irrespective of the success/failure of previous stages
+    - if docker service ls | grep -q "canario-shop-production1"; then
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production1;
+      else
+        echo "Service canario-shop-production1 not found!";
+      fi
+    - if docker service ls | grep -q "canario-shop-production2"; then
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production2;
+      else
+        echo "Service canario-shop-production2 not found!";
+      fi
+  when: always 
   only:
     variables:
-      - $CI_COMMIT_REF_NAME == "main" # Only run for the master branch (or any branch you want)
+      - $CI_COMMIT_REF_NAME == "main" 
 
 # clean_containers
 #     stage: clean-production
