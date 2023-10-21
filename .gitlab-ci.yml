@@ -70,7 +70,7 @@ deploy_production:
       fi
 
 
-#deploy_productionFF:
+#deploy_productionFFf:
   #stage: deploy_production
   #script:
     #- docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
