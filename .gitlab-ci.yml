@@ -5,6 +5,8 @@ stages:
   - test_staging
   - deploy_production
   - post_deploy
+  - update_feature_flags # Add this stage
+
   #- clean-production # I dont want to keep deployment now
   
 image_build:
@@ -96,6 +98,20 @@ invalidate_feature_flags_cache:
   when: always # This ensures that the cache invalidation happens irrespective of the success/failure of the previous stages.
   allow_failure: true # This ensures that the pipeline doesn't fail if the cache invalidation step fails.
 
+update_hourly_feature_flags:
+  stage: update_feature_flags
+  script:
+    - CURRENT_HOUR=$(date +%H)
+    - SHOW_PROMOTION=0
+    - if [ $(($CURRENT_HOUR % 2)) -eq 0 ]; then
+        SHOW_PROMOTION=1
+      fi
+    - docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production1
+    - docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION canario-shop-production2
+  when: always # Ensure this runs irrespective of the success/failure of previous stages
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "main" # Only run for the master branch (or any branch you want)
 
 # clean_containers
 #     stage: clean-production
