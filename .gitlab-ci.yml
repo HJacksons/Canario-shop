@@ -91,7 +91,8 @@ run-caddy:
 invalidate_feature_flags_cache:
   stage: post_deploy
   script:
-    - curl -X POST http://10.196.38.192/invalidate_cache
+    - curl -X POST http://10.196.38.192:8003/invalidate_cache
+    - curl -X POST http://10.196.38.192:8004/invalidate_cache
   when: always # This ensures that the cache invalidation happens irrespective of the success/failure of the previous stages.
   allow_failure: true # This ensures that the pipeline doesn't fail if the cache invalidation step fails.
 
