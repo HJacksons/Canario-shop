@@ -88,7 +88,7 @@ def shop_homepage():
     SHOW_PROMOTION = feature_flags["SHOW_PROMOTION"]
 
 
-    header = "<header class="heade">Canario Shop</header>"
+    header = "<header class="canario">Canario Shop</header>"
     title = "<h1 class="title">Welcome to Canario Shop</h1><p>Your one-stop shop for all things Canario.</p>"
 
     sidebar = """
