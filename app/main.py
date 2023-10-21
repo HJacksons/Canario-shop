@@ -207,7 +207,7 @@ def shop_homepage():
     </div>
     """ if SHOW_PREMIUM else ""
 
-hourly_promotion = """
+    hourly_promotion = """
     <div class="product hourly-promotion" data-status="Hourly Promotion!">
         <div class="product-image">
             <img src="static/assets/promotion.jpg" />
