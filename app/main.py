@@ -6,6 +6,8 @@ import random
 import requests
 from pymemcache.client import base
 import logging
+from datetime import datetime
+
 
 import logging
 
@@ -56,9 +58,14 @@ def fetch_feature_flags():
                 memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
 
             logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
+            
+            current_hour = datetime.now().hour
+            SHOW_PROMOTION = True if current_hour % 2 == 0 else False
             return {
                 "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
                 "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
+                "SHOW_PROMOTION": SHOW_PROMOTION
+
             }
     except Exception as e:
         logging.error(f"Error accessing Memcache: {e}")
@@ -78,9 +85,11 @@ def shop_homepage():
     feature_flags = fetch_feature_flags()
     SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
     SHOW_PREMIUM = feature_flags["SHOW_PREMIUM"]
+    SHOW_PROMOTION = feature_flags["SHOW_PROMOTION"]
 
-    header = "<header>Canario Shop</header>"
-    title = "<h1>Welcome to Canario Shop</h1><p>Your one-stop shop for all things Canario.</p>"
+
+    header = "<header class="heade">Canario Shop</header>"
+    title = "<h1 class="title">Welcome to Canario Shop</h1><p>Your one-stop shop for all things Canario.</p>"
 
     sidebar = """
     <div class="sidebar">
@@ -197,6 +206,19 @@ def shop_homepage():
         </div>
     </div>
     """ if SHOW_PREMIUM else ""
+   hourly_promotion = """
+    <div class="product hourly-promotion" data-status="Hourly Promotion!">
+        <div class="product-image">
+            <img src="static/assets/promotion.jpg" />
+        </div>
+        <div class="product-name">
+            Buy one phone, get one free!
+        </div>
+        <div class="product-price">
+            Limited Hour Offer
+        </div>
+    </div>
+    """ if SHOW_PROMOTION else ""
 
     footer = f"<footer>Canario Shop 2023, Oslo, Norway | {server_info}</footer>"
 
@@ -216,6 +238,7 @@ def shop_homepage():
         {premium_offer}
         {product_grid}
         {flash_sale}
+        {hourly_promotion}
         </div>
         </div>
         {footer}

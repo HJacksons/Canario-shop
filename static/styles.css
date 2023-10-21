@@ -13,8 +13,14 @@ header, footer {
     text-align: center;
     padding: 20px 0;
     box-sizing: border-box;
-}
 
+}
+head{
+    text-align: center;
+}
+footer{
+    text-align: center;
+}
 header {
     font-size: 24px;
 }
