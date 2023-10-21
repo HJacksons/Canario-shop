@@ -6,7 +6,6 @@ stages:
   - deploy_production
   - post_deploy
   - update_feature_flags # Add this stage
-
   #- clean-production # I dont want to keep deployment now
   
 image_build:
@@ -31,7 +30,7 @@ deploy_staging:
 test_staging:
   stage: test_staging
   script:
-    - sleep 10 
+    - sleep 15 
     - curl http://10.196.38.192:8000  
 
 deploy_production1:
