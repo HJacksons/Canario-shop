@@ -30,7 +30,7 @@ deploy_staging:
 test_staging:
   stage: test_staging
   script:
-    - sleep 15 
+    - sleep 10 
     - curl http://10.196.38.192:8000  
 
 deploy_production1:
