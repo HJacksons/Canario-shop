@@ -104,17 +104,17 @@ update_hourly_feature_flags:
     - CURRENT_HOUR=$(date +%H)
     - SHOW_PROMOTION=0
     - if [ $(($CURRENT_HOUR % 2)) -eq 0 ]; then SHOW_PROMOTION=1; fi
-    - SERVICE_NAME_1=canario-shop-production1
-    - SERVICE_NAME_2=canario-shop-production2
-    - if docker service ls | grep -q "$SERVICE_NAME_1"; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $SERVICE_NAME_1;
+    - EXISTING_SERVICE_NAME_1=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
+    - if [[ ! -z "$EXISTING_SERVICE_NAME_1" ]]; then
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $EXISTING_SERVICE_NAME_1;
       else
-        echo "Service $SERVICE_NAME_1 not found!";
+        echo "Service $EXISTING_SERVICE_NAME_1 not found!";
       fi
-    - if docker service ls | grep -q "$SERVICE_NAME_2"; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $SERVICE_NAME_2;
+    - EXISTING_SERVICE_NAME_2=$(docker service ls | grep "canario-shop-production2" | awk '{print $2}')
+    - if [[ ! -z "$EXISTING_SERVICE_NAME_2" ]]; then
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $EXISTING_SERVICE_NAME_2;
       else
-        echo "Service $SERVICE_NAME_2 not found!";
+        echo "Service $EXISTING_SERVICE_NAME_2 not found!";
       fi
   when: always 
   only:
