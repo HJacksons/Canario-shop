@@ -1,9 +1,9 @@
 stages:
-  - build
-  - test
-  - deploy_staging
-  - test_staging
-  - deploy_production
+  - build # CI
+  - test # CI
+  - deploy_staging # CD
+  - test_staging # CD
+  - deploy_production # CD
   - post_deploy
   - update_feature_flags # Add this stage
   #- clean-production # I dont want to keep deployment now
@@ -11,7 +11,7 @@ stages:
 image_build:
   stage: build
   script:
-    - echo "Building Docker image for Canario-Shop"
+    - echo "Building Docker image for Canario-Shop" # IaC
     - docker build -t canario-shop:$CI_PIPELINE_ID .
 
 code_test:
@@ -19,6 +19,25 @@ code_test:
   script:
     - cd app
     - cat main.py
+    - pip install pytest
+    - pytest
+
+
+# code_test:
+#   stage: test
+#   script:
+#     - cd app
+#     - pip install pytest
+#     - pytest  # This assumes you have test files following the pattern test_*.py
+
+# test_staging:
+#   stage: test_staging
+#   script:
+#     - sleep 10 
+#     - curl http://10.196.38.192:8000  # Health check
+#     - pytest --base-url=http://10.196.38.192:8000  # Running tests against the staging environment
+
+
 
 deploy_staging:
   stage: deploy_staging
@@ -73,6 +92,17 @@ deploy_production:
   #stage: deploy_production
   #script:
     #- docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
+
+
+
+# rollback_production:
+#   stage: rollback
+#   script:
+#     - docker service update --image=canario-shop:previous_stable_version canario-shop-production1
+#     - docker service update --image=canario-shop:previous_stable_version canario-shop-production2
+#   when: manual  # This means the rollback step will only run when triggered manually.
+
+
 
 run-caddy:
   stage: deploy_production
