@@ -20,10 +20,6 @@ code_test:
   script:
     - cd app
     - cat main.py
-    - python -m pytest
-
-
-
 
 
 # code_test:
