@@ -18,11 +18,8 @@ image_build:
 code_test:
   stage: test
   script:
-    - whoami  # Debug line to print the current user
     - cd app
     - cat main.py
-    - sudo apt-get update  # Use sudo here (if needed based on the output of whoami)
-    - sudo apt-get install -y python3-pip  # Install pip using sudo (if needed)
     - pip install pytest
     - pytest
 
