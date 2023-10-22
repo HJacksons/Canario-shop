@@ -18,13 +18,12 @@ image_build:
 
 code_test:
   stage: test
-  before_script:
-  - apt-get update -y && apt-get install -y python3 python3-pip
   script:
     - cd app
     - cat main.py
     - pip install pytest
     - pytest
+
 
 
 # code_test:
