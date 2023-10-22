@@ -1,3 +1,5 @@
+image: python:3.10
+
 stages:
   - build # CI
   - test # CI
@@ -21,7 +23,7 @@ code_test:
   script:
     - cd app
     - cat main.py
-    - pip3 install pytest
+    - pip install pytest
     - pytest
 
 
