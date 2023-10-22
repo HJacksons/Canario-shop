@@ -19,7 +19,7 @@ code_test:
   script:
     - cd app
     - cat main.py
-    - pip install pytest
+    - pip3 install pytest
     - pytest
 
 
