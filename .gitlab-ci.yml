@@ -106,10 +106,11 @@ update_hourly_feature_flags:
   stage: update_feature_flags
   script:
     - CURRENT_HOUR=$(date +%H)
+    - TARGET_HOUR=00
     # Use  stored value 
     - SHOW_PROMOTION_VALUE=$SHOW_PROMOTION
     # Update the value if the current hour is even
-    - if [ $((10#$CURRENT_HOUR % 2)) -eq 0 ]; then SHOW_PROMOTION_VALUE=1; fi
+    - if [ "$CURRENT_HOUR" == "$TARGET_HOUR" ]; then SHOW_PROMOTION_VALUE=1; fi
     - EXISTING_SERVICE_NAME_1=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME_1" ]]; then
         docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_1;
