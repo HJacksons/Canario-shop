@@ -106,17 +106,19 @@ update_hourly_feature_flags:
   stage: update_feature_flags
   script:
     - CURRENT_HOUR=$(date +%H)
-    - SHOW_PROMOTION=0
-    - if [ $((10#$CURRENT_HOUR % 2)) -eq 0 ]; then SHOW_PROMOTION=1; fi
+    # Use  stored value 
+    - SHOW_PROMOTION_VALUE=$SHOW_PROMOTION
+    # Update the value if the current hour is even
+    - if [ $((10#$CURRENT_HOUR % 2)) -eq 0 ]; then SHOW_PROMOTION_VALUE=1; fi
     - EXISTING_SERVICE_NAME_1=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME_1" ]]; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $EXISTING_SERVICE_NAME_1;
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_1;
       else
         echo "Service $EXISTING_SERVICE_NAME_1 not found!";
       fi
     - EXISTING_SERVICE_NAME_2=$(docker service ls | grep "canario-shop-production2" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME_2" ]]; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION $EXISTING_SERVICE_NAME_2;
+        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_2;
       else
         echo "Service $EXISTING_SERVICE_NAME_2 not found!";
       fi
@@ -124,3 +126,4 @@ update_hourly_feature_flags:
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "main" 
+ 
