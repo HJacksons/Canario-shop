@@ -6,8 +6,7 @@ stages:
   - test_staging # CD
   - deploy_production # CD
   - post_deploy
-  - update_feature_flags # Add this stage
-  #- clean-production # I dont want to keep deployment now
+  - update_feature_flags # 
   
 image_build:
   stage: build
@@ -20,23 +19,7 @@ code_test:
   script:
     - cd app
     - cat main.py
-
-
-# code_test:
-#   stage: test
-#   script:
-#     - cd app
-#     - pip install pytest
-#     - pytest  # This assumes you have test files following the pattern test_*.py
-
-# test_staging:
-#   stage: test_staging
-#   script:
-#     - sleep 10 
-#     - curl http://10.196.38.192:8000  # Health check
-#     - pytest --base-url=http://10.196.38.192:8000  # Running tests against the staging environment
-
-
+   # - pytest
 
 deploy_staging:
   stage: deploy_staging
@@ -50,6 +33,7 @@ test_staging:
   script:
     - sleep 10 
     - curl http://10.196.38.192:8001  
+    #- pytest --base-url=http://10.196.38.192:8001
 
 deploy_production1:
    stage: deploy_production
@@ -87,13 +71,6 @@ deploy_production:
       fi
 
 
-#deploy_productionFFf:
-  #stage: deploy_production
-  #script:
-    #- docker run --name canario-shop-productionFF-$CI_PIPELINE_ID -p 8001:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -d canario-shop:$CI_PIPELINE_ID
-
-
-
 # rollback_production:
 #   stage: rollback
 #   script:
@@ -106,12 +83,11 @@ deploy_production:
 run-caddy:
   stage: deploy_production
   script:
-    # Check if a caddy container with a name starting with "caddy-" exists and remove it
     - docker stop $(docker ps -q --filter "publish=80")
     - if docker ps -a | grep -q "caddy-"; then 
         docker rm -f $(docker ps -a -q -f "name=caddy-");
       fi
-    # The rest of your caddy setup script
+    # Run  new
     - echo "http://:80 {" > Caddyfile
     - echo "  reverse_proxy 10.196.38.192:8003 10.196.38.192:8004" >> Caddyfile
     - echo "}" >> Caddyfile
@@ -123,8 +99,8 @@ invalidate_feature_flags_cache:
   script:
     - curl -X POST http://10.196.38.192:8003/invalidate_cache
     - curl -X POST http://10.196.38.192:8004/invalidate_cache
-  when: always # This ensures that the cache invalidation happens irrespective of the success/failure of the previous stages.
-  allow_failure: true # This ensures that the pipeline doesn't fail if the cache invalidation step fails.
+  when: always # .
+  allow_failure: true # 
 
 update_hourly_feature_flags:
   stage: update_feature_flags
