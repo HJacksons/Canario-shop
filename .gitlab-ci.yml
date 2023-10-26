@@ -77,8 +77,7 @@ deploy_production:
 #   script:
 #     - docker service update --image=canario-shop:previous_stable_version canario-shop-production1
 #     - docker service update --image=canario-shop:previous_stable_version canario-shop-production2
-#   when: manual  # This means the rollback step will only run when triggered manually.
-
+#   when: manual  
 
 
 run-caddy:
