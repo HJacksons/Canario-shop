@@ -80,7 +80,7 @@ def fetch_feature_flags():
     logging.info("Using environment variables for feature flags.")
     return {
         "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
-        "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
+        "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1",
         "SHOW_PROMOTION": os.environ.get("SHOW_PROMOTION", default="0") == "1"
     }
 
