@@ -107,7 +107,7 @@ update_hourly_feature_flags:
   script:
     - CURRENT_HOUR=$(date +%H)
     - TARGET_HOUR=00
-    # Use  stored value 
+    # Use  stored value. 
     - SHOW_PROMOTION_VALUE=$SHOW_PROMOTION
     # Update the value if the current hour is even
     - if [ "$CURRENT_HOUR" == "$TARGET_HOUR" ]; then SHOW_PROMOTION_VALUE=1; fi
