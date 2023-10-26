@@ -36,6 +36,7 @@ def invalidate_cache():
     if memcache_client:
         memcache_client.delete("SHOW_FLASHSALE")
         memcache_client.delete("SHOW_PREMIUM")
+        memcache_client.delete("SHOW_PROMOTION")
         return {"status": "cache invalidated"}
     return {"status": "memcache not used"}
 
@@ -45,9 +46,11 @@ def fetch_feature_flags():
         if memcache_client:
             show_flashsale = memcache_client.get("SHOW_FLASHSALE")
             show_premium = memcache_client.get("SHOW_PREMIUM")
+            show_promotion = memcache_client.get("SHOW_PROMOTION")
 
             logging.info(f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}")
             logging.info(f"Type of show_premium: {type(show_premium)}, Value: {show_premium}")
+            logging.info(f"Type of show_premium: {type(show_promotion)}, Value: {show_promotion}")
 
             if show_flashsale is None:
                 show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
@@ -56,15 +59,19 @@ def fetch_feature_flags():
             if show_premium is None:
                 show_premium = os.environ.get("SHOW_PREMIUM", default="0")
                 memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
+            
+            if show_promotion is None:
+                show_promotion = os.environ.get("SHOW_PROMOTION", default="0")
+                memcache_client.set("SHOW_PROMOTION", show_promotion, expire=int(MEMCACHE_TIMEOUT))
 
-            logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
+            logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}, SHOW_PROMOTION: {show_promotion}")
             
             current_hour = datetime.now().hour
             SHOW_PROMOTION = True if current_hour % 2 == 0 else False
             return {
                 "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
                 "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
-                "SHOW_PROMOTION": SHOW_PROMOTION
+                "SHOW_PROMOTION": True if show_promotion and show_promotion.decode('utf-8') == "1" else False
 
             }
     except Exception as e:
@@ -74,6 +81,7 @@ def fetch_feature_flags():
     return {
         "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
         "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
+        "SHOW_PROMOTION": os.environ.get("SHOW_PROMOTION", default="0") == "1"
     }
 
 
