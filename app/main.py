@@ -136,7 +136,7 @@ def shop_homepage():
                 Canario
             </div>
             <div class="product-price">
-                $100
+                $200
             </div>
         </div>
         <div class="product">
@@ -147,7 +147,7 @@ def shop_homepage():
                 Canario
             </div>
             <div class="product-price">
-                $100
+                $300
             </div>
         </div>
         <div class="product">
@@ -158,7 +158,7 @@ def shop_homepage():
                 Canario
             </div>
             <div class="product-price">
-                $100
+                $400
             </div>
         </div>
         <div class="product">
@@ -169,7 +169,7 @@ def shop_homepage():
                 Canario
             </div>
             <div class="product-price">
-                $100
+                $500
             </div>
         </div>
         <div class="product">
@@ -180,7 +180,7 @@ def shop_homepage():
                 Canario
             </div>
             <div class="product-price">
-                $100
+                $600
             </div>
         </div>
         </div>
