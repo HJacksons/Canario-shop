@@ -11,6 +11,7 @@ stages:
 image_build:
   stage: build
   script:
+    - docker rmi $(docker images | grep 'canario-shop' | awk '{print $3}')
     - echo "Building Docker image for Canario-Shop" # IaC
     - docker build -t canario-shop:$CI_PIPELINE_ID .
 
