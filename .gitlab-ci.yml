@@ -105,10 +105,11 @@ invalidate_feature_flags_cache:
 update_hourly_feature_flags:
   stage: update_feature_flags
   script:
+    - export TZ=CET
     - CURRENT_HOUR=$(date +%H)
     - CURRENT_MINUTE=$(date +%M)
     - TARGET_HOUR=21
-    - TARGET_MINUTE=00
+    - TARGET_MINUTE=20
     # Use stored value 
     - SHOW_PROMOTION_VALUE=$SHOW_PROMOTION
 
