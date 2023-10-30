@@ -15,7 +15,7 @@ stages:
 image_build:
   stage: build
   before_script:
-    - rm -rf app/.pytest_cache
+    - sudo rm -rf app/.pytest_cache __pycache__
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
     - rm -rf .pytest_cache __pycache__
