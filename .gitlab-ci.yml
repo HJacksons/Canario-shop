@@ -18,6 +18,7 @@ image_build:
     - rm -rf app/.pytest_cache
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
+    - rm -rf .pytest_cache __pycache__
     - docker build -t canario-shop:$CI_PIPELINE_ID .
 
 code_test:
