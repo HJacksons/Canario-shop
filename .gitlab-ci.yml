@@ -14,18 +14,15 @@ stages:
   
 image_build:
   stage: build
-  before_script:
-    - sudo rm -rf app/.pytest_cache __pycache__
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
-    - rm -rf .pytest_cache __pycache__
     - docker build -t canario-shop:$CI_PIPELINE_ID .
 
 code_test:
   stage: test
   script:
     - docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:$CI_PIPELINE_ID pytest
-
+    - sudo rm -rf app/.pytest_cache __pycache__
 
 deploy_staging:
   stage: deploy_staging
