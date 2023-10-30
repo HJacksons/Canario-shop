@@ -2,12 +2,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os
-import random
-import requests
 from pymemcache.client import base
 import logging
 from datetime import datetime
-
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -257,7 +254,8 @@ def shop_homepage():
             Our Mega Deal for Christmas!
         </div>
         <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
-        
+       
+       ################## COUNT UNTIL CHRISTMAS OFFER ################## 
         <script>
         // Set the date we're counting down to
         const countDownDate = new Date("December 20, 2023 00:00:00").getTime();
@@ -281,11 +279,12 @@ def shop_homepage():
             // If the countdown is finished, display a message
             if (distance < 0) {
                 clearInterval(timer);
-                document.querySelector(".hourly-promotion-timer").textContent = "Time's up!";
+                document.querySelector(".hourly-promotion-timer").textContent = "Grab the deal now!";
             }
         }, 1000);  // 1000 milliseconds (1 second)
 
         </script>
+        ################## END OF COUNT UNTIL CHRISTMAS OFFER ##################
     </div>
     """
         if SHOW_PROMOTION
