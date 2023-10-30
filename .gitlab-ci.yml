@@ -15,7 +15,7 @@ stages:
 image_build:
   stage: build
   before_script:
-    - sudo chown -R gitlab-runner:gitlab-runner app/.pytest_cache
+    - sudo chown -R gitlab-runner:gitlab-runner .
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
     - docker build -t canario-shop:$CI_PIPELINE_ID .
@@ -29,7 +29,7 @@ code_test:
 deploy_staging:
   stage: deploy_staging
   before_script:
-    - sudo chown -R gitlab-runner:gitlab-runner app/.pytest_cache
+    - sudo chown -R gitlab-runner:gitlab-runner .
   script:
     - docker run -d -p 8001:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     - docker logs canario-shop-staging-$CI_PIPELINE_ID
