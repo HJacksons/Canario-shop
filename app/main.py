@@ -208,7 +208,7 @@ def shop_homepage():
         """
     <div class="product flash-sale" data-status="Flash Sale!">
         <div class="product-image">
-            <img src="static/assets/special-offer.jpg" />
+            <img src="static/assets/undraw_discount_d4bd.png" />
         </div>
         <div class="product-name">
             Special Product
@@ -226,7 +226,7 @@ def shop_homepage():
         """
     <div class="product premium" data-status="Premium Offer!">
         <div class="product-image">
-            <img src="static/assets/premium.jpeg" />
+            <img src="static/assets/undraw_product_hunt_n3f5.png" />
         </div>
         <div class="product-name">
             Exclusive Product
@@ -245,7 +245,7 @@ def shop_homepage():
 
     <div class="product hourly-promotion" data-status="Hourly Promotion!">
         <div class="product-image">
-            <img src="static/assets/promotion.jpg" />
+            <img src="static/assets/undraw_Gifts_0ceh.png" />
         </div>
         <div class="product-name">
             Buy one phone, get one free!
