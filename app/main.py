@@ -8,7 +8,6 @@ from pymemcache.client import base
 import logging
 from datetime import datetime
 
-
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -31,6 +30,7 @@ if USE_MEMCACHE == "Y":
 
     # Fetch feature flags from memcache or env vars
 
+
 @app.post("/invalidate_cache")
 def invalidate_cache():
     if memcache_client:
@@ -39,33 +39,46 @@ def invalidate_cache():
         return {"status": "cache invalidated"}
     return {"status": "memcache not used"}
 
-    
+
 def fetch_feature_flags():
     try:
         if memcache_client:
             show_flashsale = memcache_client.get("SHOW_FLASHSALE")
             show_premium = memcache_client.get("SHOW_PREMIUM")
 
-            logging.info(f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}")
-            logging.info(f"Type of show_premium: {type(show_premium)}, Value: {show_premium}")
+            logging.info(
+                f"Type of show_flashsale: {type(show_flashsale)}, Value: {show_flashsale}"
+            )
+            logging.info(
+                f"Type of show_premium: {type(show_premium)}, Value: {show_premium}"
+            )
 
             if show_flashsale is None:
                 show_flashsale = os.environ.get("SHOW_FLASHSALE", default="0")
-                memcache_client.set("SHOW_FLASHSALE", show_flashsale, expire=int(MEMCACHE_TIMEOUT))
+                memcache_client.set(
+                    "SHOW_FLASHSALE", show_flashsale, expire=int(MEMCACHE_TIMEOUT)
+                )
 
             if show_premium is None:
                 show_premium = os.environ.get("SHOW_PREMIUM", default="0")
-                memcache_client.set("SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT))
+                memcache_client.set(
+                    "SHOW_PREMIUM", show_premium, expire=int(MEMCACHE_TIMEOUT)
+                )
 
-            logging.info(f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}")
-            
+            logging.info(
+                f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}"
+            )
+
             current_hour = datetime.now().hour
             SHOW_PROMOTION = True if current_hour % 2 == 0 else False
             return {
-                "SHOW_FLASHSALE": True if show_flashsale and show_flashsale.decode('utf-8') == "1" else False,
-                "SHOW_PREMIUM": True if show_premium and show_premium.decode('utf-8') == "1" else False,
-                "SHOW_PROMOTION": SHOW_PROMOTION
-
+                "SHOW_FLASHSALE": True
+                if show_flashsale and show_flashsale.decode("utf-8") == "1"
+                else False,
+                "SHOW_PREMIUM": True
+                if show_premium and show_premium.decode("utf-8") == "1"
+                else False,
+                "SHOW_PROMOTION": SHOW_PROMOTION,
             }
     except Exception as e:
         logging.error(f"Error accessing Memcache: {e}")
@@ -73,9 +86,8 @@ def fetch_feature_flags():
     logging.info("Using environment variables for feature flags.")
     return {
         "SHOW_FLASHSALE": os.environ.get("SHOW_FLASHSALE", default="0") == "1",
-        "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1"
+        "SHOW_PREMIUM": os.environ.get("SHOW_PREMIUM", default="0") == "1",
     }
-
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -86,7 +98,6 @@ def shop_homepage():
     SHOW_FLASHSALE = feature_flags["SHOW_FLASHSALE"]
     SHOW_PREMIUM = feature_flags["SHOW_PREMIUM"]
     SHOW_PROMOTION = feature_flags["SHOW_PROMOTION"]
-
 
     header = "<header>Canario Shop</header>"
     title = "<h1>Welcome to Canario Shop</h1><p>Your one-stop shop for all things Canario.</p>"
@@ -179,7 +190,8 @@ def shop_homepage():
     </div>
     """
 
-    flash_sale = """
+    flash_sale = (
+        """
     <div class="product flash-sale" data-status="Flash Sale!">
         <div class="product-image">
             <img src="static/assets/special-offer.jpg" />
@@ -191,9 +203,13 @@ def shop_homepage():
             Special Discount
         </div>
     </div>
-    """ if SHOW_FLASHSALE else ""
+    """
+        if SHOW_FLASHSALE
+        else ""
+    )
 
-    premium_offer = """
+    premium_offer = (
+        """
     <div class="product premium" data-status="Premium Offer!">
         <div class="product-image">
             <img src="static/assets/premium.jpeg" />
@@ -205,9 +221,13 @@ def shop_homepage():
             Exclusive Deal
         </div>
     </div>
-    """ if SHOW_PREMIUM else ""
+    """
+        if SHOW_PREMIUM
+        else ""
+    )
 
-hourly_promotion = """
+    hourly_promotion = (
+        """
     <div class="product hourly-promotion" data-status="Hourly Promotion!">
         <div class="product-image">
             <img src="static/assets/promotion.jpg" />
@@ -219,7 +239,10 @@ hourly_promotion = """
             Limited Hour Offer
         </div>
     </div>
-    """ if SHOW_PROMOTION else ""
+    """
+        if SHOW_PROMOTION
+        else ""
+    )
 
     footer = f"<footer>Canario Shop 2023, Oslo, Norway | {server_info}</footer>"
 
