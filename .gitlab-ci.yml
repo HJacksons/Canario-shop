@@ -24,7 +24,7 @@ code_test:
   script:
     - cd app
     - cat main.py
-   # - pytest
+    - pytest
 
 deploy_staging:
   stage: deploy_staging
@@ -38,7 +38,7 @@ test_staging:
   script:
     - sleep 10 
     - curl http://10.196.38.192:8001  
-    #- pytest --base-url=http://10.196.38.192:8001
+    - pytest --base-url=http://10.196.38.192:8001
 
 clean:
    stage: clean_staging
