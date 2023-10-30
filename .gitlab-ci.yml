@@ -22,7 +22,8 @@ image_build:
 code_test:
   stage: test
   script:
-    - docker run --rm -v $(pwd)/app:/app -w /app canario-shop:$CI_PIPELINE_ID pytest
+    - docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:$CI_PIPELINE_ID pytest
+
 
 
 deploy_staging:
