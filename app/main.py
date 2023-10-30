@@ -243,15 +243,15 @@ def shop_homepage():
     hourly_promotion = (
         """
 
-    <div class="product hourly-promotion" data-status="Christmas Offer"!>
+    <div class="product hourly-promotion" data-status="Christmas Offer!"!>
         <div class="product-image">
             <img src="static/assets/undraw_Gifts_0ceh.png" />
         </div>
         <div class="product-name">
-            2 for 1
+            Buy one get one free
         </div>
         <div class="product-price">
-            Limited Offer
+            Counting down to 20th Dec. 2023
         </div>
         <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
         <script>
@@ -272,7 +272,7 @@ def shop_homepage():
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Display the result
-            document.querySelector(".hourly-promotion-timer").textContent = days + " days " + hours + " hours: " + minutes + " minutes and " + seconds + " seconds";
+            document.querySelector(".hourly-promotion-timer").textContent = days + " days " + hours + ":" + minutes + ":" + seconds + ":";
 
             // If the countdown is finished, display a message
             if (distance < 0) {
