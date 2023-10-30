@@ -255,27 +255,33 @@ def shop_homepage():
         </div>
         <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
         <script>
-        // Get the span element where we'll display the remaining time
-        const timeElement = document.getElementById("time");
-        
-        // Set initial time in minutes
-        let timeLeft = 58;
+        // Set the date we're counting down to
+        const countDownDate = new Date("December 20, 2023 00:00:00").getTime();
 
-        // Update the countdown timer every minute
+        // Update the countdown every second
         const timer = setInterval(() => {
-            // Decrease the time left by one minute
-            timeLeft -= 1;
+            const now = new Date().getTime();
 
-            // Update the displayed time
-            timeElement.textContent = timeLeft;
+            // Find the time difference between now and the countdown date
+            const distance = countDownDate - now;
 
-            // If the time reaches zero, clear the interval
-            if (timeLeft <= 0) {
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.querySelector(".hourly-promotion-timer").textContent = days + " days " + hours + " hours: " + minutes + " minutes and " + seconds + " seconds";
+
+            // If the countdown is finished, display a message
+            if (distance < 0) {
                 clearInterval(timer);
                 document.querySelector(".hourly-promotion-timer").textContent = "Time's up!";
             }
-        }, 60000); // 60000 milliseconds (1 minute)
-    </script>
+        }, 1000);  // 1000 milliseconds (1 second)
+
+        </script>
     </div>
     """
         if SHOW_PROMOTION
