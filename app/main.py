@@ -136,10 +136,10 @@ def shop_homepage():
     <div class="product-grid">
         <div class="product">
             <div class="product-image">
-                <img src="static/assets/undraw_dua_lipa_ixam.png" />
+                <img src="static/assets/undraw_Camera_re_cnp4.png" />
             </div>
             <div class="product-name">
-                Canario
+                AI Camera
             </div>
             <div class="product-price">
                 $100
@@ -150,7 +150,7 @@ def shop_homepage():
                 <img src="static/assets/undraw_dua_lipa_ixam.png" />
             </div>
             <div class="product-name">
-                Canario
+              AI Speaker
             </div>
             <div class="product-price">
                 $200
@@ -161,7 +161,7 @@ def shop_homepage():
                 <img src="static/assets/undraw_Imagination_re_i0xi.png" />
             </div>
             <div class="product-name">
-                Canario
+                AI Headphones
             </div>
             <div class="product-price">
                 $300
@@ -172,7 +172,7 @@ def shop_homepage():
                 <img src="static/assets/undraw_mobile_devices_k1ok.png" />
             </div>
             <div class="product-name">
-                Canario
+                Smart Phone
             </div>
             <div class="product-price">
                 $400
@@ -183,7 +183,7 @@ def shop_homepage():
                 <img src="static/assets/undraw_ninja_e52b.png" />
             </div>
             <div class="product-name">
-                Canario
+                VR Gaming
             </div>
             <div class="product-price">
                 $500
@@ -194,7 +194,7 @@ def shop_homepage():
                 <img src="static/assets/undraw_Smartwatch_re_59lx.png" />
             </div>
             <div class="product-name">
-                Canario
+                Smart Watch
             </div>
             <div class="product-price">
                 $600
@@ -211,7 +211,7 @@ def shop_homepage():
             <img src="static/assets/undraw_discount_d4bd.png" />
         </div>
         <div class="product-name">
-            Special Product
+            Smart Watch
         </div>
         <div class="product-price">
             Special Discount
@@ -229,7 +229,7 @@ def shop_homepage():
             <img src="static/assets/undraw_product_hunt_n3f5.png" />
         </div>
         <div class="product-name">
-            Exclusive Product
+            VR Gaming
         </div>
         <div class="product-price">
             Exclusive Deal
