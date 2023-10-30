@@ -116,7 +116,7 @@ update_hourly_feature_flags:
     - echo "SHOW_PROMOTION_VALUE:$SHOW_PROMOTION_VALUE"
 
     # Update the value if the current hour and minute match the target
-    - if [ "$CURRENT_HOUR" -eq "$TARGET_HOUR" ] && [ "$CURRENT_MINUTE" -ge "$TARGET_MINUTE" ] && [ "$CURRENT_MINUTE" -le $(($TARGET_MINUTE+9)) ]; then SHOW_PROMOTION_VALUE=1; 
+    - if [ "$CURRENT_HOUR" -eq "$TARGET_HOUR" ] && [ "$CURRENT_MINUTE" -ge "$TARGET_MINUTE" ] && [ "$CURRENT_MINUTE" -le $(($TARGET_MINUTE+9)) ]; then SHOW_PROMOTION_VALUE=1;  fi
     - EXISTING_SERVICE_NAME_1=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME_1" ]]; then
         docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_1;
