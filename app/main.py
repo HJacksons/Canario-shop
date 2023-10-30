@@ -253,6 +253,7 @@ def shop_homepage():
         <div class="product-price">
             Limited Hour Offer
         </div>
+        <div class="hourly-promotion-timer">Time Left: 58 mins</div>
     </div>
     """
         if SHOW_PROMOTION
@@ -275,13 +276,13 @@ def shop_homepage():
         {sidebar}
         <div class="content-wrapper">
         {premium_offer}
-        {product_grid}
         {flash_sale}
         {hourly_promotion}
+        {product_grid}
         </div>
         </div>
         {footer}
-        
+
     </body>
     </html>
     

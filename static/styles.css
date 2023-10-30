@@ -185,3 +185,43 @@ footer {
         width: 100%;
     }
 }
+
+/* Special items styles */
+.flash-sale, .premium, .hourly-promotion {
+    background-color: #fef4e8;
+    border-color: #ffad42;
+}
+
+.flash-sale:hover, .premium:hover, .hourly-promotion:hover {
+    box-shadow: 0 0 20px rgba(255, 173, 66, 0.5);
+}
+
+.flash-sale::before, .premium::before, .hourly-promotion::before {
+    top: -10px;
+    left: -10px;
+    background-color: #ffad42;
+    color: #fff;
+    z-index: 1;
+}
+
+.flash-sale::after, .premium::after, .hourly-promotion::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dotted #ffad42;
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+.hourly-promotion-timer {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+}
