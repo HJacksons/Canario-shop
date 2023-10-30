@@ -1,9 +1,14 @@
 
+workflow:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"' # Pipeline will only run if the branch is main
+
 stages:
   - build # CI
   - test # CI
   - deploy_staging # CD
   - test_staging # CD
+  - clean_staging
   - deploy_production # CD
   - post_deploy
   - update_feature_flags # 
@@ -12,14 +17,14 @@ image_build:
   stage: build
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
-    - docker build --no-cache -t canario-shop:$CI_PIPELINE_ID .
+    - docker build -t canario-shop:$CI_PIPELINE_ID .
 
 code_test:
   stage: test
   script:
     - cd app
     - cat main.py
-   # - pytest
+    - pytest
 
 deploy_staging:
   stage: deploy_staging
@@ -33,18 +38,14 @@ test_staging:
   script:
     - sleep 10 
     - curl http://10.196.38.192:8001  
-    #- pytest --base-url=http://10.196.38.192:8001
+    - pytest --base-url=http://10.196.38.192:8001
 
-deploy_production1:
-   stage: deploy_production
+clean:
+   stage: clean_staging
    script:
      - docker stop canario-shop-staging-$CI_PIPELINE_ID
      - docker rm canario-shop-staging-$CI_PIPELINE_ID
-    #- docker run -d -p 80 --name canario-shop-production-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
-    # this can be deplo shop1, can add deploy shop2 with different port.. representing webservers.. down use flags and server them differently
-    #- docker run --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=1 -e SHOW_PREMIUM=0 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID
-    #- docker run --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=0 -e SHOW_PREMIUM=1 -e   USE_MEMCACHE=Y -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID
-    
+   
 deploy_production:
   stage: deploy_production
   script:
@@ -72,14 +73,6 @@ deploy_production:
       fi
 
 
-# rollback_production:
-#   stage: rollback
-#   script:
-#     - docker service update --image=canario-shop:previous_stable_version canario-shop-production1
-#     - docker service update --image=canario-shop:previous_stable_version canario-shop-production2
-#   when: manual  
-
-
 run-caddy:
   stage: deploy_production
   script:
@@ -101,30 +94,3 @@ invalidate_feature_flags_cache:
     - curl -X POST http://10.196.38.192:8004/invalidate_cache
   when: always # .
   allow_failure: true # 
-
-update_hourly_feature_flags:
-  stage: update_feature_flags
-  script:
-    - CURRENT_HOUR=$(date +%H)
-    - TARGET_HOUR=00
-    # Use  stored value 
-    - SHOW_PROMOTION_VALUE=$SHOW_PROMOTION
-    # Update the value if the current hour is even
-    - if [ "$CURRENT_HOUR" == "$TARGET_HOUR" ]; then SHOW_PROMOTION_VALUE=1; fi
-    - EXISTING_SERVICE_NAME_1=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
-    - if [[ ! -z "$EXISTING_SERVICE_NAME_1" ]]; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_1;
-      else
-        echo "Service $EXISTING_SERVICE_NAME_1 not found!";
-      fi
-    - EXISTING_SERVICE_NAME_2=$(docker service ls | grep "canario-shop-production2" | awk '{print $2}')
-    - if [[ ! -z "$EXISTING_SERVICE_NAME_2" ]]; then
-        docker service update --env-add SHOW_PROMOTION=$SHOW_PROMOTION_VALUE $EXISTING_SERVICE_NAME_2;
-      else
-        echo "Service $EXISTING_SERVICE_NAME_2 not found!";
-      fi
-  when: always 
-  only:
-    variables:
-      - $CI_COMMIT_REF_NAME == "main" 
- 
