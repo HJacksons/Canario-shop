@@ -276,7 +276,7 @@ def shop_homepage():
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Display the result
-            document.querySelector(".hourly-promotion-timer").textContent = days + " days\n" + hours + " hours " + minutes + " minutes " + seconds + " seconds"
+            document.querySelector(".hourly-promotion-timer").textContent = days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds"
 
             // If the countdown is finished, display a message
             if (distance < 0) {
