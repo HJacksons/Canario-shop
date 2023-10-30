@@ -295,10 +295,12 @@ def shop_homepage():
     <html>
     <head>
         <link rel="stylesheet" href="static/styles.css">
-    </head>
-    <body>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {header}
         {title}
+    </head>
+    <body>
         <div class="main-content">
         {sidebar}
         <div class="content-wrapper">
