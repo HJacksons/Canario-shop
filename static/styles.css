@@ -14,7 +14,7 @@ header, footer {
     padding: 20px 0;
     box-sizing: border-box;
 }
-title{
+.title{
     color: #fff;
     text-align: center;
     padding: 20px 0;
@@ -146,20 +146,48 @@ footer {
 }
 
 .hourly-promotion {
-    border: 2px solid #e74ccc;
-    background-color: rgba(231, 76, 204, 0.1);
-    z-index: 10;
-    box-shadow: 0 0 15px rgba(231, 76, 204, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    border: 2px solid #f39c12; /* The border color of .premium */
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+    width: calc(25% - 20px);
+    position: relative;
 }
 
 .hourly-promotion:hover {
-    box-shadow: 0 0 20px rgba(231, 76, 204, 0.5);
+    transform: scale(1.05);
 }
 
-.hourly-promotion::before {
-    z-index: 20;
+.hourly-promotion .product-image img {
+    max-width: 100%;
+    max-height: 150px;
+    margin: 0 auto 15px;
 }
+
+.hourly-promotion .product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hourly-promotion .product-price {
+    color: #e74c3c;
+}
+.hourly-promotion::before {
+    content: attr(data-status);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
