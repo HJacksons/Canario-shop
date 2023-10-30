@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-from main import app
+from main import app, memcache_client
+
 
 client = TestClient(app)
 
@@ -18,7 +19,7 @@ def test_invalidate_cache():
     Test if the cache invalidation endpoint works.
     """
     response = client.post("/invalidate_cache")
-    if app.state.memcache_client:  # If using memcache
+    if memcache_client:  # If using memcache
         assert response.json() == {"status": "cache invalidated"}
     else:
         assert response.json() == {"status": "memcache not used"}
