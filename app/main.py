@@ -142,7 +142,7 @@ def shop_homepage():
                 AI Camera
             </div>
             <div class="product-price">
-                $100
+                $359
             </div>
         </div>
         <div class="product">
@@ -153,7 +153,7 @@ def shop_homepage():
               AI Speaker
             </div>
             <div class="product-price">
-                $200
+                $429
             </div>
         </div>
         <div class="product">
@@ -164,7 +164,7 @@ def shop_homepage():
                 AI Headphones
             </div>
             <div class="product-price">
-                $300
+                $319
             </div>
         </div>
         <div class="product">
@@ -175,7 +175,7 @@ def shop_homepage():
                 Smart Phone
             </div>
             <div class="product-price">
-                $400
+                $449
             </div>
         </div>
         <div class="product">
@@ -186,7 +186,7 @@ def shop_homepage():
                 VR Gaming
             </div>
             <div class="product-price">
-                $500
+                $199
             </div>
         </div>
         <div class="product">
