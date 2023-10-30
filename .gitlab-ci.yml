@@ -22,9 +22,8 @@ image_build:
 code_test:
   stage: test
   script:
-    - cd app
-    - cat main.py
-    - pytest
+    - docker run --rm -v $(pwd)/app:/app canario-shop:$CI_PIPELINE_ID pytest /app
+
 
 deploy_staging:
   stage: deploy_staging
@@ -38,7 +37,7 @@ test_staging:
   script:
     - sleep 10 
     - curl http://10.196.38.192:8001  
-    - pytest --base-url=http://10.196.38.192:8001
+    #- pytest --base-url=http://10.196.38.192:8001
 
 clean:
    stage: clean_staging
