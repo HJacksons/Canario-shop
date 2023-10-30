@@ -104,7 +104,7 @@ footer {
     position: relative;
 }
 
-.product:hover, .flash-sale:hover, .premium:hover, .hourly-promotion {
+.product:hover, .flash-sale:hover, .premium:hover, .hourly-promotion:hover {
     transform: scale(1.05);
 }
 
@@ -114,7 +114,7 @@ footer {
     margin: 0 auto 15px;
 }
 
-.product-name, .flash-sale, .premium {
+.product-name, .flash-sale, .premium, .hourly-promotion {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -124,7 +124,7 @@ footer {
     color: #e74c3c;
 }
 
-.flash-sale::before, .premium::before, .hourly-promotion {
+.flash-sale::before, .premium::before, .hourly-promotion::before {
     content: attr(data-status);
     position: absolute;
     top: 10px;
@@ -154,10 +154,6 @@ footer {
     text-align: center;
     width: calc(25% - 20px);
     position: relative;
-}
-
-.hourly-promotion:hover {
-    transform: scale(1.05);
 }
 
 .hourly-promotion .product-image img {
