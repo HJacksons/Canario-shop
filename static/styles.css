@@ -14,6 +14,12 @@ header, footer {
     padding: 20px 0;
     box-sizing: border-box;
 }
+title{
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
 
 header {
     font-size: 24px;
@@ -105,8 +111,7 @@ footer {
 .product-image img {
     max-width: 100%;
     max-height: 150px;
-    margin: 0 auto;
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
 }
 
 .product-name, .flash-sale, .premium {
@@ -141,18 +146,18 @@ footer {
 }
 
 .hourly-promotion{
-    border: #e74ccc;
+    border:2px solid #e74ccc;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .product, .flash-sale, .premium {
+    .product, .flash-sale, .premium, .hourly-promotion {
         width: calc(50% - 20px);
     }
 }
 
 @media (max-width: 480px) {
-    .product, .flash-sale, .premium {
+    .product, .flash-sale, .premium, .hourly-promotion {
         width: 100%;
     }
 }
