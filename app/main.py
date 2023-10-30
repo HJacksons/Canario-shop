@@ -248,12 +248,16 @@ def shop_homepage():
             <img src="static/assets/undraw_Gifts_0ceh.png" />
         </div>
         <div class="product-name">
-            Buy one get one free
+            Shop one, Score Two! 
+            <div class="banner">
+                <span class="rotating-text">20th Dec 2023</span>
+            </div>
         </div>
         <div class="product-price">
-            Counting down to 20th Dec. 2023
+            Our Mega Deal for Christmas!
         </div>
         <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
+        
         <script>
         // Set the date we're counting down to
         const countDownDate = new Date("December 20, 2023 00:00:00").getTime();
@@ -272,7 +276,7 @@ def shop_homepage():
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Display the result
-            document.querySelector(".hourly-promotion-timer").textContent = days + " days " + hours + ":" + minutes + ":" + seconds + ":";
+            document.querySelector(".hourly-promotion-timer").textContent = days + " days\n" + hours + " hours " + minutes + " minutes " + seconds + " seconds"
 
             // If the countdown is finished, display a message
             if (distance < 0) {
