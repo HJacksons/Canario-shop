@@ -259,15 +259,20 @@ def shop_homepage():
         if SHOW_PROMOTION
         else ""
     )
+    special_offers_section = f"""
+    <div class="special-offers">
+        {premium_offer}
+        {flash_sale}
+        {hourly_promotion}
+    </div>
+    """
 
     footer = f"<footer>Canario Shop 2023, Oslo, Norway | {server_info}</footer>"
 
     full_page = f"""
-
     <html>
     <head>
         <link rel="stylesheet" href="static/styles.css">
-
     </head>
     <body>
         {header}
@@ -275,14 +280,11 @@ def shop_homepage():
         <div class="main-content">
         {sidebar}
         <div class="content-wrapper">
-        {premium_offer}
-        {flash_sale}
-        {hourly_promotion}
-        {product_grid}
+            {special_offers_section}
+            {product_grid}
         </div>
         </div>
         {footer}
-
     </body>
     </html>
     

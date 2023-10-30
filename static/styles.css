@@ -225,3 +225,29 @@ footer {
     margin-top: 10px;
     display: inline-block;
 }
+
+/* ... Other styles ... */
+
+.special-offers {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.flash-sale {
+    background-color: #FAD02E;  /* Yellow */
+    border: 2px solid #F59E0B;  /* Dark Yellow */
+}
+
+.premium {
+    background-color: #BFDBFE;  /* Light Blue */
+    border: 2px solid #3B82F6;  /* Blue */
+}
+
+.hourly-promotion {
+    background-color: #D9FAE5;  /* Light Green */
+    border: 2px solid #34D399;  /* Green */
+}
+
+/* ... Other styles ... */
