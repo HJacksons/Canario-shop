@@ -199,7 +199,7 @@ footer {
 .flash-sale::before, .premium::before, .hourly-promotion::before {
     top: -10px;
     left: -10px;
-    background-color: #ffad42;
+    background-color: #000000;
     color: #fff;
     z-index: 1;
 }
