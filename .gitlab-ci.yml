@@ -12,7 +12,7 @@ image_build:
   stage: build
   script:
     - echo "Building Docker image for Canario-Shop" # IaC
-    - docker build --no-cache -t canario-shop:$CI_PIPELINE_ID .
+    - docker build -t canario-shop:$CI_PIPELINE_ID .
 
 code_test:
   stage: test
