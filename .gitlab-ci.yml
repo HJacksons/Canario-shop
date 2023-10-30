@@ -26,9 +26,10 @@ code_test:
     - docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:$CI_PIPELINE_ID pytest
 
 
-
 deploy_staging:
   stage: deploy_staging
+  before_script:
+    - rm -rf app/.pytest_cache
   script:
     - docker run -d -p 8001:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     - docker logs canario-shop-staging-$CI_PIPELINE_ID
