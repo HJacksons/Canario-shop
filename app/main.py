@@ -243,17 +243,39 @@ def shop_homepage():
     hourly_promotion = (
         """
 
-    <div class="product hourly-promotion" data-status="Hourly Promotion!">
+    <div class="product hourly-promotion" data-status="Christmas Offer"!>
         <div class="product-image">
             <img src="static/assets/undraw_Gifts_0ceh.png" />
         </div>
         <div class="product-name">
-            Buy one phone, get one free!
+            2 for 1
         </div>
         <div class="product-price">
-            Limited Hour Offer
+            Limited Offer
         </div>
-        <div class="hourly-promotion-timer">Time Left: 58 mins</div>
+        <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
+        <script>
+        // Get the span element where we'll display the remaining time
+        const timeElement = document.getElementById("time");
+        
+        // Set initial time in minutes
+        let timeLeft = 58;
+
+        // Update the countdown timer every minute
+        const timer = setInterval(() => {
+            // Decrease the time left by one minute
+            timeLeft -= 1;
+
+            // Update the displayed time
+            timeElement.textContent = timeLeft;
+
+            // If the time reaches zero, clear the interval
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                document.querySelector(".hourly-promotion-timer").textContent = "Time's up!";
+            }
+        }, 60000); // 60000 milliseconds (1 minute)
+    </script>
     </div>
     """
         if SHOW_PROMOTION
