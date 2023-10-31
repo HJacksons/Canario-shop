@@ -23,16 +23,9 @@ code_test:
   script:
     - docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:$CI_PIPELINE_ID bash -c "pytest && rm -rf /app/.pytest_cache /app/__pycache__"
 
-cleanup_runner:
-  stage: test 
-  script:
-    - chmod +x ./app/cleanup_directories.sh
-    - ./app/cleanup_directories.sh
-
 deploy_staging:
   stage: deploy_staging
   script:
-    - bash ./app/cleanup_directories.sh
     - docker run -d -p 8001:80 --name canario-shop-staging-$CI_PIPELINE_ID canario-shop:$CI_PIPELINE_ID 
     - docker logs canario-shop-staging-$CI_PIPELINE_ID
 
