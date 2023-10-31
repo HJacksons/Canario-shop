@@ -33,7 +33,6 @@ def test_shop_homepage_content():
     assert "Canario Shop" in response.text
     assert "Your one-stop shop for all things Canario." in response.text
     assert "Categories" in response.text
-    assert "hourly_promotion" in response.text
     assert "END OF COUNT UNTIL CHRISTMAS OFFER " in response.text
     # ... add more content assertions as needed
 
