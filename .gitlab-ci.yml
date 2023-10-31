@@ -22,8 +22,7 @@ code_test:
   stage: test
   script:
     - docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:$CI_PIPELINE_ID pytest
-    - rm -rf app/.pytest_cache __pycache__
-
+    - ./cleanup_directories.sh
 deploy_staging:
   stage: deploy_staging
   before_script:
