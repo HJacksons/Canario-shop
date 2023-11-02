@@ -255,7 +255,7 @@ def shop_homepage():
         </div>
         <div class="hourly-promotion-timer">Time Left: <span id="time">58</span> mins</div>
        
-       ################## COUNT UNTIL CHRISTMAS OFFER ################## 
+        // ################## COUNT UNTIL CHRISTMAS OFFER ################## 
         <script>
         // Set the date we're counting down to
         const countDownDate = new Date("December 20, 2023 00:00:00").getTime();
@@ -284,7 +284,7 @@ def shop_homepage():
         }, 1000);  // 1000 milliseconds (1 second)
 
         </script>
-        ################## END OF COUNT UNTIL CHRISTMAS OFFER ##################
+        // ################## END OF COUNT UNTIL CHRISTMAS OFFER ##################
     </div>
     """
         if SHOW_PROMOTION

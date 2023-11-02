@@ -1,9 +1,7 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
-RUN pip install requests
-RUN pip install pymemcache pytest
 RUN pip install --upgrade pip && \
-    pip install poetry
+    pip install poetry requests pymemcache pytest
 
 COPY ./app /app
 COPY ./static /app/static/

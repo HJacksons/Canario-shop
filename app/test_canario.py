@@ -37,8 +37,5 @@ def test_shop_homepage_content():
     assert "AI Camera" in response.text
 
 
-    # ... add more content assertions as needed
-
-
 if __name__ == "__main__":
     pytest.main()
