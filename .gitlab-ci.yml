@@ -73,7 +73,7 @@ deploy_production:
 run-caddy:
   stage: deploy_production
   script:
-    - docker stop $(docker ps -q --filter "publish=80")
+    - docker stop $(docker ps -q --filter "publish=90")
     - if docker ps -a | grep -q "caddy-"; then 
         docker rm -f $(docker ps -a -q -f "name=caddy-");
       fi
