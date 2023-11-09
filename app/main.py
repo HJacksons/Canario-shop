@@ -154,6 +154,8 @@ def shop_homepage():
             <div class="product-price">
                 $429
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -165,6 +167,8 @@ def shop_homepage():
             <div class="product-price">
                 $319
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -176,6 +180,8 @@ def shop_homepage():
             <div class="product-price">
                 $449
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -187,6 +193,8 @@ def shop_homepage():
             <div class="product-price">
                 $199
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         <div class="product">
             <div class="product-image">
@@ -198,6 +206,8 @@ def shop_homepage():
             <div class="product-price">
                 $600
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         </div>
     </div>
@@ -215,6 +225,7 @@ def shop_homepage():
         <div class="product-price">
             Special Discount
         </div>
+        <button class="btn" onclick="alert('Grabbing the deal!')">Grab now!</button>
     </div>
     """
         if SHOW_FLASHSALE
@@ -233,6 +244,7 @@ def shop_homepage():
         <div class="product-price">
             Exclusive Deal
         </div>
+        <button class="btn" onclick="alert('Grabbing the deal!')">Grab now!</button>
     </div>
     """
         if SHOW_PREMIUM
@@ -287,7 +299,7 @@ def shop_homepage():
         
         // ################## END OF COUNT UNTIL CHRISTMAS OFFER ##################
         </script>
-        
+        <button class="btn" onclick="alert('Grabbing the deal!')">Grab the deal now!</button>
     </div>
     """
         if SHOW_PROMOTION
