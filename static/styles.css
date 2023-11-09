@@ -230,7 +230,8 @@ footer {
 
 .special-offers {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     margin: 20px 0;
 }
