@@ -1,6 +1,8 @@
 .idea/
 __pycache__/
 .pytest_cache/
+mainbup.py
+```
 
 # End of https://www.gitignore.io/api/python
 ```
