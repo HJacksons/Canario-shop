@@ -81,9 +81,9 @@ footer {
 .product-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; /* Align items in the center */
     gap: 20px;
-    margin: 20px 0;
+    margin: 20px; /* Add margin to all sides */
 }
 
 .product-card {
@@ -143,39 +143,33 @@ footer {
     z-index: 0;
 }
 
-/* ... Other styles ... */
-
 /* Special items styles */
 .special-offers {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center items horizontally */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
     gap: 20px;
-    margin: 20px 0;
+    margin: 20px; /* Uniform margin */
 }
 
 .special-offer {
+    flex: 1; /* Allow flexibility of the box */
+    max-width: calc(33.333% - 40px); /* Define maximum width with gap */
+    box-sizing: border-box; /* Include padding and border in width and height */
     background-color: #fef4e8;
     border-color: #ffad42;
+    position: relative;
+    padding: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .special-offer:hover {
+    transform: scale(1.05);
     box-shadow: 0 0 20px rgba(255, 173, 66, 0.5);
 }
 
-.special-offer.flash-sale {
-    background-color: #FAD02E;  /* Yellow */
-    border: 2px solid #F59E0B;  /* Dark Yellow */
-}
-
-.special-offer.premium {
-    background-color: #BFDBFE;  /* Light Blue */
-    border: 2px solid #3B82F6;  /* Blue */
-}
-
-.special-offer.hourly-promotion {
-    background-color: #D9FAE5;  /* Light Green */
-    border: 2px solid #34D399;  /* Green */
-}
+/* ... Other styles ... */
 
 .rotating-text {
     position: absolute;
@@ -195,17 +189,13 @@ footer {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
-    .sidebar {
-        flex: 1 0 auto;
-    }
-
-    .product-card {
-        width: calc(50% - 20px);
+@media (max-width: 1024px) {
+    .special-offer {
+        max-width: calc(50% - 40px); /* Adjust for medium screens */
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .main-content {
         flex-direction: column;
     }
@@ -215,6 +205,12 @@ footer {
         margin-bottom: 20px;
     }
 
+    .special-offer {
+        max-width: calc(100% - 40px); /* Full width on small screens */
+    }
+}
+
+@media (max-width: 480px) {
     .product-card {
         width: 100%;
     }
