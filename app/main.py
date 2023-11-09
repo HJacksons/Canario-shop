@@ -126,6 +126,7 @@ def shop_homepage():
             <li><a href="#"><span>📚</span> Books & Stationery</a></li>
             <li><a href="#"><span>🎉</span> Special Offers</a></li>
         </ul>
+        <button id="toggle-sidebar">Toggle Sidebar</button>        
     </div>
     """
 
@@ -183,7 +184,7 @@ def shop_homepage():
             <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
             <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
-        <!-- <div class="product">
+        <div class="product">
             <div class="product-image">
                 <img src="static/assets/undraw_ninja_e52b.png" />
             </div>
@@ -208,7 +209,7 @@ def shop_homepage():
             </div>
             <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
             <button class="btn" onclick="alert('More details!')">View Details</button>
-        </div> -->
+        </div>
         </div>
     </div>
     """
@@ -301,6 +302,20 @@ def shop_homepage():
         </script>
         <button class="btn" onclick="alert('Grabbing the deal!')">Grab the deal now!</button>
     </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    // Function to toggle sidebar visibility
+    const toggleSidebar = () => {
+        const sidebarElement = document.querySelector('.sidebar');
+        sidebarElement.classList.toggle('hidden');
+    };
+
+    // Event listener for your toggle button, assuming it has an id of 'toggle-sidebar'
+    document.getElementById('toggle-sidebar').addEventListener('click', toggleSidebar);
+    });
+
+    </script>
     """
         if SHOW_PROMOTION
         else ""

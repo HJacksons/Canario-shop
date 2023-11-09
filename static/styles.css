@@ -285,3 +285,16 @@ footer {
 .btn:hover {
     background-color: #0056b3;
 }
+
+/* Mobile view: hide sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
+
+/* Class to toggle visibility */
+.hidden {
+    display: none;
+}
+
