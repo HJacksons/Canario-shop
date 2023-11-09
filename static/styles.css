@@ -11,29 +11,29 @@ header, footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
     box-sizing: border-box;
 }
 .title{
     color: #a34ef7;
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
     box-sizing: border-box;
 }
 
 header {
-    font-size: 24px;
+    font-size: 15px;
 }
 
 footer {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 /* Main Content & Sidebar Styles */
 .main-content {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 15px;
 }
 
 .sidebar {
