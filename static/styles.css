@@ -96,7 +96,6 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
-    margin: 5px 0;
 }
 
 .product, .flash-sale, .premium, .hourly-promotion {
