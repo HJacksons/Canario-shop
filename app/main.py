@@ -141,6 +141,8 @@ def shop_homepage():
             <div class="product-price">
                 $359
             </div>
+            <button class="btn" onclick="alert('Added to cart!')">Add to Cart</button>
+            <button class="btn" onclick="alert('More details!')">View Details</button>
         </div>
         <div class="product">
             <div class="product-image">
