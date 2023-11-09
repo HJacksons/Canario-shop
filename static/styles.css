@@ -100,7 +100,7 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     text-align: center;
-    width: calc(20% - 15px);
+    width: calc(25% - 15px);
     position: relative;
 }
 
