@@ -126,7 +126,7 @@ def shop_homepage():
             <li><a href="#"><span>📚</span> Books & Stationery</a></li>
             <li><a href="#"><span>🎉</span> Special Offers</a></li>
         </ul>
-        <button id="toggle-sidebar">Toggle Sidebar</button>        
+        <!-- <button id="toggle-sidebar">Toggle Sidebar</button> -->       
     </div>
     """
 
