@@ -243,7 +243,7 @@ def shop_homepage():
             VR Gaming
         </div>
         <div class="product-price">
-            Nelson!
+            Exclusive Deal
         </div>
         <button class="btn" onclick="alert('Grabbing the deal!')">Grab now!</button>
     </div>
