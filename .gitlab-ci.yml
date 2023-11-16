@@ -49,12 +49,12 @@ deploy_production:
     - EXISTING_SERVICE_NAME=$(docker service ls | grep "canario-shop-production1" | awk '{print $2}')
     - if [[ ! -z "$EXISTING_SERVICE_NAME" ]]; then 
         echo "Updating existing service $EXISTING_SERVICE_NAME";
-        docker service update --image=canario-shop:$CI_PIPELINE_ID --replicas=1 --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add SHOW_PROMOTION=$SHOW_PROMOTION --env-add USE_MEMCACHE=$USE_MEMCACHE  $EXISTING_SERVICE_NAME;
+        docker service update --image=canario-shop:$CI_PIPELINE_ID --replicas=3 --env-add SHOW_FLASHSALE=$SHOW_FLASHSALE --env-add SHOW_PREMIUM=$SHOW_PREMIUM --env-add SHOW_PROMOTION=$SHOW_PROMOTION --env-add USE_MEMCACHE=$USE_MEMCACHE  $EXISTING_SERVICE_NAME;
         echo "Flags:SHOW_FLASHSALE=$SHOW_FLASHSALE, SHOW_PREMIUM=$SHOW_PREMIUM, SHOW_PROMOTION=$SHOW_PROMOTION, USE_MEMCACHE=$USE_MEMCACHE"
 
       else 
         echo "Creating new service canario-shop-production1-$CI_PIPELINE_ID";
-        docker service create --replicas=1 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e SHOW_PROMOTION=$SHOW_PROMOTION -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID;
+        docker service create --replicas=3 --name canario-shop-production1-$CI_PIPELINE_ID -p 8003:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e SHOW_PROMOTION=$SHOW_PROMOTION -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8003 -d canario-shop:$CI_PIPELINE_ID;
       fi
 
 
