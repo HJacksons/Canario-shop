@@ -1,6 +1,6 @@
 workflow:
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "develop"' # only run if the branch is main
+    - if: '$CI_COMMIT_REF_NAME == "main"' # only run if the branch is main
 
 stages:
   - build # CI
