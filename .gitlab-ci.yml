@@ -69,7 +69,7 @@ deploy_production:
         docker service create --replicas=5 --name canario-shop-production2-$CI_PIPELINE_ID -p 8004:80 -e SHOW_FLASHSALE=$SHOW_FLASHSALE -e SHOW_PREMIUM=$SHOW_PREMIUM -e SHOW_PROMOTION=$SHOW_PROMOTION -e USE_MEMCACHE=$USE_MEMCACHE -e MEMCACHE_SERVER=10.196.38.192 -e INFO_PORT=8004 -d canario-shop:$CI_PIPELINE_ID;
       fi
 
-
+# haproxy in action 
 # run-caddy:
 #   stage: deploy_production
 #   script:
