@@ -67,8 +67,7 @@ def fetch_feature_flags():
                 f"From Memcache - SHOW_FLASHSALE: {show_flashsale}, SHOW_PREMIUM: {show_premium}, SHOW_PROMOTION: {show_promotion}"
             )
 
-            #current_hour = datetime.now().hour
-            #SHOW_PROMOTION = True if current_hour % 2 == 0 else False
+
             return {
                 "SHOW_FLASHSALE": True
                 if show_flashsale and show_flashsale.decode("utf-8") == "1"
