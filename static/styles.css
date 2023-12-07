@@ -258,12 +258,15 @@ footer {
 
 .rotating-text {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: 0% 0%;
-    animation: rotateText 10s infinite linear;
+    top: 10%;
+    left: 10%;
+    animation: blinkText 1s infinite;
 }
 
+@keyframes blinkText {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
 @keyframes rotateText {
     0% {
         transform: rotate(0deg);
