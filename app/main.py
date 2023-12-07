@@ -250,7 +250,7 @@ def shop_homepage():
         <div class="product-name">
             Shop one, Score Two! 
             <div class="banner">
-                <span class="rotating-text">20th Dec 2023</span>
+                <span class="rotating-text">20th Dec</span>
             </div>
         </div>
         <div class="product-price">
