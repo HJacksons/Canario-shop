@@ -259,7 +259,7 @@ footer {
 .rotating-text {
     position: absolute;
     top: 10%;
-    right: 10%;
+    right: 3%;
     animation: blinkText 1s infinite;
 }
 
