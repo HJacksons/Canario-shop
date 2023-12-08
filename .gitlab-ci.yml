@@ -10,7 +10,6 @@ stages:
   - clean_staging
   - deploy_production # CD
   - post_deploy
-  - update_feature_flags # c
   
 image_build:
   stage: build
