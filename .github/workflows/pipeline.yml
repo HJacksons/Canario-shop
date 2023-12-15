@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Docker Image
+      run: |
+        echo "Building Docker image for Canario-Shop"
+        docker build -t canario-shop:${{ github.run_id }} .
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test Code
+      run: docker run --rm -v $(pwd)/app:/app -v $(pwd)/static:/app/static -w /app canario-shop:${{ github.run_id }} bash -c "pytest && rm -rf /app/.pytest_cache /app/__pycache__"
+
+  deploy_staging:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy to Staging
+      run: |
+        docker run -d -p 8001:80 --name canario-shop-staging-${{ github.run_id }} canario-shop:${{ github.run_id }}
+        docker logs canario-shop-staging-${{ github.run_id }}
+
+  test_staging:
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test Staging
+      run: |
+        sleep 10
+        curl http://10.196.38.192:8001
+
+  clean_staging:
+    needs: test_staging
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Clean Staging
+      run: |
+        docker stop canario-shop-staging-${{ github.run_id }}
+        docker rm canario-shop-staging-${{ github.run_id }}
+
+  # ... Additional jobs for deploy_production and invalidate_feature_flags_cache here ...
+
