@@ -1,10 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os
 from pymemcache.client import base
-import logging
-from datetime import datetime
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -340,4 +338,6 @@ def shop_homepage():
     </html>
     
     """
+    #TODO: Add a button to invalidate cache
+
     return HTMLResponse(content=full_page, status_code=200)
