@@ -76,3 +76,4 @@ invalidate_feature_flags_cache:
     - curl -X POST http://10.196.38.192:8004/invalidate_cache
   when: always # .
   allow_failure: true # 
+#Implement a pipeline that deploys the application to a staging environment and runs tests against it. If the tests pass, the application should be deployed to production. The pipeline should also clean up the staging environment after the tests are done. The pipeline should also invalidate the cache of the feature flags after the application is deployed to production.
