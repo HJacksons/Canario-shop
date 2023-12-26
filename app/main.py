@@ -338,6 +338,6 @@ def shop_homepage():
     </html>
     
     """
-    #TODO: Add a button to invalidate cache
+    # TODO: Add a button to invalidate cache
 
     return HTMLResponse(content=full_page, status_code=200)
