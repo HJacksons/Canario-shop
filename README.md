@@ -2,7 +2,7 @@
 
 ## Automating a Deployment Platform
 
-Project Canario is an ambitious initiative aimed at revolutionizing the deployment platform for a digital solutions provider. The project focuses on implementing a robust CI/CD pipeline, Docker Swarm for container orchestration, feature flag management, and HAProxy for efficient load balancing.
+Project Canario is an initiative aimed at automating the deployment platform for a digital solutions provider. The project focuses on implementing a robust CI/CD pipeline, Docker Swarm for container orchestration, feature flag management, and HAProxy for efficient load balancing.
 
 ### Key Features
 
